@@ -1,9 +1,31 @@
 /*
 * ENCE 260 Embedded Systems Project
-* Authors : James Lee (47069487), Matthew Hornsby
+* Authors : James Lee (47069487), Matthew Hornsby ()
 * Date: October 2019
 *
 * "Rock Paper Scissors"
+*
+* Flow:
+*
+* Loop 1: (Not Finished)
+*
+* Both players can toggle between the 3 bitmaps
+* using navswitch east/west.
+*
+* pressing navswitch push locks player to the current bitmap.
+*
+* Loop 2: (Not Finished)
+*
+* the symbol (Rock/Paper/Scissors) that each player selected
+* is transferred to the other players screen using ir_uart module
+*
+* after a 3 second delay, one of three messages (W, L, T) is displayed
+* depending on if the player WON, LOST, or TIED
+*
+* REPEAT
+*
+*
+*
 *
 *
 *
