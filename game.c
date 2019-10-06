@@ -7,16 +7,20 @@
 *
 * Flow:
 *
-* Loop 1: (Not Finished)
+* Loop 1: (Finished)
 *
 * Both players can toggle between the 3 bitmaps
 * using navswitch east/west.
 *
-* pressing navswitch push locks player to the current bitmap.
+* pressing (Button1)navswitch push locks player to the current bitmap.
+*
+*
 *
 * Loop 2: (Not Finished)
 *
-* the symbol (Rock/Paper/Scissors) that each player selected
+* When both players are ready, they will press navswitch push
+*
+*  the symbol (Rock/Paper/Scissors) that each player selected
 * is transferred to the other players screen using ir_uart module
 *
 * after a 3 second delay, one of three messages (W, L, T) is displayed
@@ -54,18 +58,18 @@ static const pio_t cols[] = {
 };
 
 
-static const uint8_t rock_bitmap[] = {
+static const uint8_t ROCK_BITMAP[] = {
     0x00, 0x07, 0x07, 0x07, 0x00
 };
 
 
-static const uint8_t paper_bitmap[] = {
+static const uint8_t PAPER_BITMAP[] = {
     0x07, 0x07, 0x07, 0x07, 0x07
 
 };
 
 
-static const uint8_t scissors_bitmap[] = {
+static const uint8_t SCISSORS_BITMAP[] = {
     0x05, 0x05, 0x02, 0x07, 0x07
 };
 
@@ -129,31 +133,39 @@ int main (void)
     pacer_init (500);
     led_matrix_init();
 
+    int locked_in = 0;
+
 
     while (1) {
         pacer_wait ();
 
         navswitch_update ();
 
-        if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
-            current_bitmap++;
-            if (current_bitmap > 3) {
-                current_bitmap = 1;
+        if (navswitch_push_event_p (NAVSWITCH_EAST)) {
+            if (!locked_in) {
+                current_bitmap++;
+                if (current_bitmap > 3) {
+                    current_bitmap = 1;
+                }
+
             }
         }
 
-        if (navswitch_push_event_p (NAVSWITCH_SOUTH)) {
-            current_bitmap--;
-            if (current_bitmap < 1) {
-                current_bitmap = 3;
+        if (navswitch_push_event_p (NAVSWITCH_WEST)) {
+            if (!locked_in) {
+                current_bitmap--;
+                if (current_bitmap < 1) {
+                    current_bitmap = 3;
+                }
             }
+
         }
         if (current_bitmap == 1) {
-            display_column (rock_bitmap[current_column], current_column);
+            display_column (ROCK_BITMAP[current_column], current_column);
         } else if (current_bitmap == 2) {
-            display_column (paper_bitmap[current_column], current_column);
+            display_column (PAPER_BITMAP[current_column], current_column);
         } else if (current_bitmap == 3) {
-            display_column (scissors_bitmap[current_column], current_column);
+            display_column (SCISSORS_BITMAP[current_column], current_column);
         }
 
 
@@ -161,6 +173,10 @@ int main (void)
 
         if (current_column > (LEDMAT_COLS_NUM - 1)) {
             current_column = 0;
+        }
+
+        if (navswitch_push_event_p(NAVSWITCH_PUSH)) { // TO DO: Implement button functionality, buttons will be used here
+            locked_in = 1;
         }
     }
 }
