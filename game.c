@@ -7,7 +7,10 @@
 *
 * Flow:
 *
-* Loop 1: (Finished)
+* Stage 1: (Not Finished)
+* Establish player 1 and player 2 using IR.
+*
+* Stage 2: (Finished)
 *
 * Both players can toggle between the 3 bitmaps
 * using navswitch east/west.
@@ -16,7 +19,7 @@
 *
 *
 *
-* Loop 2: (Not Finished)
+* Stag 3: (Not Finished)
 *
 * When both players are ready, they will press navswitch push
 *
@@ -131,7 +134,7 @@ static void display_column (uint8_t row_pattern, uint8_t current_column)
 }
 
 
-void led_matrix_init()
+void led_matrix_init(void)
 {
 
     /*Initialise LED matrix pins.  */
@@ -183,7 +186,9 @@ Bitmap_Info selection_phase(uint8_t current_column, uint8_t current_bitmap, uint
             current_column = 0;
         }
 
-        if (navswitch_push_event_p(NAVSWITCH_PUSH)) { // TO DO: Implement button functionality,
+        button_update ();
+
+        if (button_push_event_p (BUTTON1)) {
             locked_in = 1;
         }
 
@@ -211,8 +216,11 @@ int main (void)
 
 
 
+
+
     while (1) {
         pacer_wait ();
+
 
         navswitch_update ();
 
