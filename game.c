@@ -12,7 +12,7 @@
 * Both players can toggle between the 3 bitmaps
 * using navswitch east/west.
 *
-* pressing (Button1)navswitch push locks player to the current bitmap.
+* pressing Button1 locks player to the current bitmap.
 *
 *
 *
