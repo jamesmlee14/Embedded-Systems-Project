@@ -12,7 +12,7 @@
 * Both players can toggle between the 3 bitmaps
 * using navswitch east/west.
 *
-* pressing (Button1)navswitch push locks player to the current bitmap.
+* pressing Button1 locks player to the current bitmap.
 *
 *
 *
@@ -43,6 +43,14 @@
 
 #include "navswitch.h"
 
+typedef struct bitmap_info_s Bitmap_Info;
+
+struct bitmap_info_s {
+    uint8_t current_column;
+    uint8_t current_bitmap;
+    uint8_t locked_in
+};
+
 
 /** Define PIO pins driving LED matrix rows.  */
 static const pio_t rows[] = {
@@ -71,6 +79,20 @@ static const uint8_t SCISSORS_BITMAP[] = {
     0x05, 0x05, 0x02, 0x07, 0x07
 };
 
+static const uint8_t ROCK_INVERSE_BITMAP[] = {
+    0x00, 0x70, 0x70, 0x70, 0x00
+};
+
+static const uint8_t PAPER_INVERSE_BITMAP[] = {
+    0x70, 0x70, 0x70, 0x70, 0x70
+};
+
+static const uint8_t SCISSORS_INVERSE_BITMAP[] = {
+    0x50, 0x50, 0x20, 0x70, 0x70
+};
+
+
+
 
 static const uint8_t WIN_BITMAP[] = {
     0x22, 0x22, 0x2A, 0x2A, 0x14
@@ -93,8 +115,7 @@ static void display_column (uint8_t row_pattern, uint8_t current_column)
 
     pio_output_high (cols[prev_column]);
 
-    /* TODO */
-    for (int i = 0; i < 7; i++) { //7 times
+    for (uint8_t i = 0; i < 7; i++) { //7 times
         if (row_pattern >> i & 1) {
             pio_output_low (rows[i]);
         } else {
@@ -131,36 +152,14 @@ void led_matrix_init()
 
 }
 
-int main (void)
-{
 
+Bitmap_Info selection_phase(uint8_t current_column, uint8_t current_bitmap, uint8_t locked_in) {
 
-    uint8_t current_bitmap = 1;
-
-
-    uint8_t current_column = 0;
-
-    navswitch_init ();
-    system_init ();
-    pacer_init (500);
-    led_matrix_init();
-    button_init ();
-
-    int locked_in = 0;
-
-
-    while (1) {
-        pacer_wait ();
-
-        navswitch_update ();
-
-        if (navswitch_push_event_p (NAVSWITCH_EAST) && !locked_in) {
+    if (navswitch_push_event_p (NAVSWITCH_EAST) && !locked_in) {
             current_bitmap++;
             if (current_bitmap > 3) {
                 current_bitmap = 1;
             }
-
-
         }
 
         if (navswitch_push_event_p (NAVSWITCH_WEST) && !locked_in) {
@@ -168,14 +167,13 @@ int main (void)
             if (current_bitmap < 1) {
                 current_bitmap = 3;
             }
-
         }
         if (current_bitmap == 1) {
-            display_column (ROCK_BITMAP[current_column], current_column);
+            display_column (ROCK_INVERSE_BITMAP[current_column], current_column);
         } else if (current_bitmap == 2) {
-            display_column (PAPER_BITMAP[current_column], current_column);
+            display_column (PAPER_INVERSE_BITMAP[current_column], current_column);
         } else if (current_bitmap == 3) {
-            display_column (SCISSORS_BITMAP[current_column], current_column);
+            display_column (SCISSORS_INVERSE_BITMAP[current_column], current_column);
         }
 
 
@@ -185,9 +183,53 @@ int main (void)
             current_column = 0;
         }
 
-        if (navswitch_push_event_p(NAVSWITCH_PUSH)) { // TO DO: Implement button functionality, button1 will be used here
+        if (navswitch_push_event_p(NAVSWITCH_PUSH)) { // TO DO: Implement button functionality,
             locked_in = 1;
         }
+
+
+        Bitmap_Info update = {current_column, current_bitmap, locked_in};
+        return update;
+
+}
+
+
+
+int main (void)
+{
+
+    Bitmap_Info bitmap = {0, 1, 0};
+
+    char opponent_bitmap;
+
+    navswitch_init ();
+    system_init ();
+    pacer_init (500);
+    led_matrix_init();
+    button_init ();
+
+
+
+
+    while (1) {
+        pacer_wait ();
+
+        navswitch_update ();
+
+        bitmap = selection_phase(bitmap.current_column, bitmap.current_bitmap, bitmap.locked_in);
+
+/*
+        if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
+            ir_uart_putc(current_bitmap);  //sending
+        }
+
+        if (ir_uart_read_ready_p()) {
+            opponent_bitmap = ir_uart_getc();
+            if (opponent_bitmap = 1) {
+                opponent_bitmap = arriving; // arriving
+            }
+        }
+*/
 
     }
 }
