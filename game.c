@@ -62,16 +62,27 @@ static const uint8_t ROCK_BITMAP[] = {
     0x00, 0x07, 0x07, 0x07, 0x00
 };
 
-
 static const uint8_t PAPER_BITMAP[] = {
     0x07, 0x07, 0x07, 0x07, 0x07
-
 };
-
 
 static const uint8_t SCISSORS_BITMAP[] = {
     0x05, 0x05, 0x02, 0x07, 0x07
 };
+
+
+static const uint8_t WIN_BITMAP[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+static const uint8_t DRAW_BITMAP[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00
+};
+
+static const uint8_t LOSS_BITMAP[] = {
+    0x00, 0x00, 0x00, 0x00, 0x00
+};
+
 
 
 static void display_column (uint8_t row_pattern, uint8_t current_column)
@@ -141,22 +152,19 @@ int main (void)
 
         navswitch_update ();
 
-        if (navswitch_push_event_p (NAVSWITCH_EAST)) {
-            if (!locked_in) {
-                current_bitmap++;
-                if (current_bitmap > 3) {
-                    current_bitmap = 1;
-                }
-
+        if (navswitch_push_event_p (NAVSWITCH_EAST) && !locked_in) {
+            current_bitmap++;
+            if (current_bitmap > 3) {
+                current_bitmap = 1;
             }
+
+
         }
 
-        if (navswitch_push_event_p (NAVSWITCH_WEST)) {
-            if (!locked_in) {
-                current_bitmap--;
-                if (current_bitmap < 1) {
-                    current_bitmap = 3;
-                }
+        if (navswitch_push_event_p (NAVSWITCH_WEST) && !locked_in) {
+            current_bitmap--;
+            if (current_bitmap < 1) {
+                current_bitmap = 3;
             }
 
         }
