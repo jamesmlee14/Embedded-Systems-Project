@@ -39,6 +39,7 @@
 #include "system.h"
 #include "pio.h"
 #include "pacer.h"
+#include "button.h"
 
 #include "navswitch.h"
 
@@ -143,6 +144,7 @@ int main (void)
     system_init ();
     pacer_init (500);
     led_matrix_init();
+    button_init ();
 
     int locked_in = 0;
 
@@ -183,8 +185,9 @@ int main (void)
             current_column = 0;
         }
 
-        if (navswitch_push_event_p(NAVSWITCH_PUSH)) { // TO DO: Implement button functionality, buttons will be used here
+        if (navswitch_push_event_p(NAVSWITCH_PUSH)) { // TO DO: Implement button functionality, button1 will be used here
             locked_in = 1;
         }
+
     }
 }
