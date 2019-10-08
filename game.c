@@ -43,14 +43,19 @@
 #include "pio.h"
 #include "pacer.h"
 #include "button.h"
+#include "timer.h"
 
 #include "navswitch.h"
+
+#include "ir_uart.h"
+
 
 typedef struct bitmap_info_s Bitmap_Info;
 
 struct bitmap_info_s {
     uint8_t current_column;
     uint8_t current_bitmap;
+    uint8_t opponent_bitmap;
     uint8_t locked_in
 };
 
@@ -70,28 +75,69 @@ static const pio_t cols[] = {
 };
 
 
-static const uint8_t ROCK_BITMAP[] = {
+static const uint8_t ROCK_INVERSE_BITMAP[] = {
     0x00, 0x07, 0x07, 0x07, 0x00
 };
 
-static const uint8_t PAPER_BITMAP[] = {
+static const uint8_t PAPER_INVERSE_BITMAP[] = {
     0x07, 0x07, 0x07, 0x07, 0x07
 };
 
-static const uint8_t SCISSORS_BITMAP[] = {
+static const uint8_t SCISSORS_INVERSE_BITMAP[] = {
     0x05, 0x05, 0x02, 0x07, 0x07
 };
 
-static const uint8_t ROCK_INVERSE_BITMAP[] = {
+static const uint8_t ROCK_BITMAP[] = {
     0x00, 0x70, 0x70, 0x70, 0x00
 };
 
-static const uint8_t PAPER_INVERSE_BITMAP[] = {
+static const uint8_t PAPER_BITMAP[] = {
     0x70, 0x70, 0x70, 0x70, 0x70
 };
 
-static const uint8_t SCISSORS_INVERSE_BITMAP[] = {
+static const uint8_t SCISSORS_BITMAP[] = {
     0x50, 0x50, 0x20, 0x70, 0x70
+};
+
+
+
+
+static const uint8_t ROCK_ROCK_BITMAP[] = {
+    0x00, 0x77, 0x77, 0x77, 0x00
+};
+
+static const uint8_t ROCK_PAPER_BITMAP[] = {
+    0x07, 0x77, 0x77, 0x77, 0x07
+};
+
+static const uint8_t ROCK_SCISSORS_BITMAP[] = {
+    0x05, 0x75, 0x72, 0x77, 0x07
+};
+
+
+static const uint8_t PAPER_ROCK_BITMAP[] = {
+    0x70, 0x77, 0x77, 0x77, 0x70
+};
+
+static const uint8_t PAPER_PAPER_BITMAP[] = {
+    0x77, 0x77, 0x77, 0x77, 0x77
+};
+
+static const uint8_t PAPER_SCISSORS_BITMAP[] = {
+    0x75, 0x75, 0x72, 0x77, 0x77
+};
+
+
+static const uint8_t SCISSORS_ROCK_BITMAP[] = {
+    0x50, 0x57, 0x27, 0x77, 0x70
+};
+
+static const uint8_t SCISSORS_PAPER_BITMAP[] = {
+    0x57, 0x57, 0x27, 0x77, 0x77
+};
+
+static const uint8_t SCISSORS_SCISSORS_BITMAP[] = {
+    0x55, 0x55, 0x22, 0x77, 0x77
 };
 
 
@@ -156,34 +202,26 @@ void led_matrix_init(void)
 }
 
 
-Bitmap_Info selection_phase(uint8_t current_column, uint8_t current_bitmap, uint8_t locked_in) {
+Bitmap_Info display_bitmap(uint8_t current_column, uint8_t current_bitmap, uint8_t opponent_bitmap, uint8_t locked_in)
+{
 
-    if (navswitch_push_event_p (NAVSWITCH_EAST) && !locked_in) {
+    // Code for Selection Phase
+
+
+    if (!locked_in) {
+
+        if (navswitch_push_event_p (NAVSWITCH_EAST)) {
             current_bitmap++;
             if (current_bitmap > 3) {
                 current_bitmap = 1;
             }
         }
 
-        if (navswitch_push_event_p (NAVSWITCH_WEST) && !locked_in) {
+        if (navswitch_push_event_p (NAVSWITCH_WEST)) {
             current_bitmap--;
             if (current_bitmap < 1) {
                 current_bitmap = 3;
             }
-        }
-        if (current_bitmap == 1) {
-            display_column (ROCK_INVERSE_BITMAP[current_column], current_column);
-        } else if (current_bitmap == 2) {
-            display_column (PAPER_INVERSE_BITMAP[current_column], current_column);
-        } else if (current_bitmap == 3) {
-            display_column (SCISSORS_INVERSE_BITMAP[current_column], current_column);
-        }
-
-
-        current_column++;
-
-        if (current_column > (LEDMAT_COLS_NUM - 1)) {
-            current_column = 0;
         }
 
         button_update ();
@@ -193,51 +231,122 @@ Bitmap_Info selection_phase(uint8_t current_column, uint8_t current_bitmap, uint
         }
 
 
-        Bitmap_Info update = {current_column, current_bitmap, locked_in};
-        return update;
+    }
+
+
+    if (opponent_bitmap == 0) {
+
+        if (current_bitmap == 1) {
+            display_column (ROCK_BITMAP[current_column], current_column);
+        } else if (current_bitmap == 2) {
+            display_column (PAPER_BITMAP[current_column], current_column);
+        } else if (current_bitmap == 3) {
+            display_column (SCISSORS_BITMAP[current_column], current_column);
+        }
+
+
+    } else {
+
+        // rock and rock
+        if (current_bitmap == 1 && opponent_bitmap == 1) {
+            display_column (ROCK_ROCK_BITMAP[current_column], current_column);
+        }
+        // rock and paper
+        if (current_bitmap == 1 && opponent_bitmap == 2) {
+            display_column (ROCK_PAPER_BITMAP[current_column], current_column);
+        }
+        //rock and scissors
+        if (current_bitmap == 1 && opponent_bitmap == 3) {
+            display_column (ROCK_SCISSORS_BITMAP[current_column], current_column);
+        }
+
+        //paper and rock
+        if (current_bitmap == 2 && opponent_bitmap == 1) {
+            display_column (PAPER_ROCK_BITMAP[current_column], current_column);
+        }
+        //paper and paper
+        if (current_bitmap == 2 && opponent_bitmap == 2) {
+            display_column (PAPER_PAPER_BITMAP[current_column], current_column);
+        }
+        //paper and scissors
+        if (current_bitmap == 2 && opponent_bitmap == 3) {
+            display_column (PAPER_SCISSORS_BITMAP[current_column], current_column);
+        }
+
+        //scissors and rock
+        if (current_bitmap == 3 && opponent_bitmap == 1) {
+            display_column (SCISSORS_ROCK_BITMAP[current_column], current_column);
+        }
+        //scissors and paper
+        if (current_bitmap == 3 && opponent_bitmap == 2) {
+            display_column (SCISSORS_PAPER_BITMAP[current_column], current_column);
+        }
+        //scissors and scissors
+        if (current_bitmap == 3 && opponent_bitmap == 3) {
+            display_column (SCISSORS_SCISSORS_BITMAP[current_column], current_column);
+        }
+    }
+    current_column++;
+
+    if (current_column > (LEDMAT_COLS_NUM - 1)) {
+        current_column = 0;
+    }
+
+    Bitmap_Info update = {current_column, current_bitmap, opponent_bitmap, locked_in};
+    return update;
 
 }
+
 
 
 
 int main (void)
 {
 
-    Bitmap_Info bitmap = {0, 1, 0};
-
-    char opponent_bitmap;
+    Bitmap_Info bitmap = {0, 1, 0, 0};
 
     navswitch_init ();
     system_init ();
     pacer_init (500);
-    led_matrix_init();
     button_init ();
 
-
-
-
+    uint8_t in_selection_phase = 1;
+    uint8_t in_comparison_phase = 0;
+    uint8_t in_outcome_phase = 0;
+    uint8_t locked_bitmap = 0;
+    uint8_t recieved = 0;
 
 
     while (1) {
+
         pacer_wait ();
-
-
         navswitch_update ();
+        led_matrix_init();
 
-        bitmap = selection_phase(bitmap.current_column, bitmap.current_bitmap, bitmap.locked_in);
-
-/*
-        if (navswitch_push_event_p(NAVSWITCH_PUSH)) {
-            ir_uart_putc(current_bitmap);  //sending
-        }
-
-        if (ir_uart_read_ready_p()) {
-            opponent_bitmap = ir_uart_getc();
-            if (opponent_bitmap = 1) {
-                opponent_bitmap = arriving; // arriving
+        if (in_selection_phase) {
+            bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
+            if (bitmap.locked_in) {
+                locked_bitmap = bitmap.current_bitmap;
+                in_comparison_phase = 1;
             }
         }
-*/
+
+        if (in_comparison_phase && in_selection_phase) {
+            ir_uart_putc(locked_bitmap);  //sending
+        }
+        if (ir_uart_read_ready_p() && in_selection_phase) {
+            recieved = ir_uart_getc();
+            if (recieved == 1 || recieved == 2 || recieved == 3) {
+                bitmap.opponent_bitmap = recieved; //recieving
+            }
+        }
+
+        if (in_comparison_phase && bitmap.opponent_bitmap != 0) {
+            in_selection_phase = 0;
+            bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
+        }
+
+
 
     }
 }
