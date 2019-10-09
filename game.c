@@ -42,9 +42,12 @@
 #include "system.h"
 #include "pio.h"
 #include "pacer.h"
-#include "button.h"
 #include "timer.h"
 #include "led.h"
+#include "tinygl.h"
+#include "../fonts/font5x7_1.h"
+#include "button.h"
+
 
 
 #include "navswitch.h"
@@ -222,7 +225,7 @@ Bitmap_Info display_bitmap(uint8_t current_column, uint8_t current_bitmap, uint8
             }
         }
 
-        if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
+        if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
             locked_in = 1;
         }
 
@@ -300,6 +303,7 @@ Bitmap_Info display_bitmap(uint8_t current_column, uint8_t current_bitmap, uint8
 
 
 
+
 int main (void)
 {
 
@@ -310,12 +314,20 @@ int main (void)
     pacer_init (500);
     led_matrix_init();
     led_init ();
+    ir_uart_init();
+    button_init();
 
-    uint8_t in_selection_phase = 1;
-    uint8_t in_comparison_phase = 0;
+    uint8_t in_player_phase = 1;
+    uint8_t in_selection_phase = 0;
+    uint8_t in_transmission_phase = 0;
     uint8_t in_outcome_phase = 0;
     char recieved = 0;
+
+    char is_player1 = 'F';
+    char is_player2 = 'F';
+
     led_set (LED1, 0); // LIGHT OFF
+
 
 
     while (1) {
@@ -324,34 +336,71 @@ int main (void)
         navswitch_update ();
         led_matrix_init();
 
-        if (bitmap.locked_in == 0) {
-            bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
-            if (bitmap.locked_in == 1) {
-                in_comparison_phase = 1;
-                led_matrix_init();
 
+
+
+        if (in_player_phase) {
+
+            button_update ();
+
+            if (button_push_event_p (BUTTON1)) {
+                is_player1 = 'T';
+                ir_uart_putc('T');  //sending
+            }
+            if (ir_uart_read_ready_p()) {
+                char set_player2 = ir_uart_getc();
+                if (set_player2 == 'T') {
+                    is_player2 = set_player2;
+                }
+            }
+
+        }
+
+        if (in_player_phase && (is_player1 == 'T' || is_player2 == 'T')) {
+            in_player_phase = 0;
+            in_selection_phase = 1;
+        }
+
+
+        if (in_selection_phase && !bitmap.locked_in) {
+            bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
+            led_set (LED1, 1); // LIGHT ON
+            if (bitmap.locked_in) {
+                in_transmission_phase = 1;
+                led_matrix_init();
             }
         }
 
-        if (in_comparison_phase == 1 && in_selection_phase == 1) {
+
+
+
+
+/*
+        if (in_transmission_phase && in_selection_phase) {
             led_set (LED1, 1); // LIGHT ON
             ir_uart_putc(bitmap.current_bitmap);  //sending
         }
         if (ir_uart_read_ready_p()) {
             recieved = ir_uart_getc();
-            led_set (LED1, 0); // LIGHT OFF
+
             if (recieved == 1 || recieved == 2 || recieved == 3) {
                 bitmap.opponent_bitmap = recieved; //recieving
+            } else {
+                recieved = 0;
             }
         }
 
-        if (in_comparison_phase == 1 && recieved != 0) { //have recieved
+        if (in_transmission_phase && recieved != 0) { //have recieved
 
             in_selection_phase = 0;
+            led_set (LED1, 0); // LIGHT OFF
 
 
             bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
         }
+*/
+
+
 
 
 
