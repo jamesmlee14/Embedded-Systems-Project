@@ -44,6 +44,7 @@
 #include "pacer.h"
 #include "button.h"
 #include "timer.h"
+#include "led.h"
 
 
 #include "navswitch.h"
@@ -309,7 +310,6 @@ int main (void)
     pacer_init (500);
     led_matrix_init();
     led_init ();
-    bitmaps_init();
 
     uint8_t in_selection_phase = 1;
     uint8_t in_comparison_phase = 0;
