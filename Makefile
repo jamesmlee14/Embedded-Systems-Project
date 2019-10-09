@@ -49,9 +49,13 @@ timer0.o: ../../drivers/avr/timer0.c ../../drivers/avr/bits.h ../../drivers/avr/
 prescale.o: ../../drivers/avr/prescale.c ../../drivers/avr/prescale.h ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+led.o: ../../drivers/led.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/led.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+
+
 # Link: create ELF output file from object files.
-game.out: game.o system.o pacer.o pio.o timer.o navswitch.o button.o ir_uart.o usart1.o timer0.o prescale.o
-	$(CC) $(CFLAGS) $^ -o $@ -lm
+game.out: game.o system.o pacer.o pio.o timer.o navswitch.o button.o ir_uart.o usart1.o timer0.o prescale.o led.o
 	$(SIZE) $@
 
 
