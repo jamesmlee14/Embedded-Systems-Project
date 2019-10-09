@@ -45,6 +45,7 @@
 #include "button.h"
 #include "timer.h"
 
+
 #include "navswitch.h"
 
 #include "ir_uart.h"
@@ -56,7 +57,7 @@ struct bitmap_info_s {
     uint8_t current_column;
     uint8_t current_bitmap;
     uint8_t opponent_bitmap;
-    uint8_t locked_in
+    uint8_t locked_in;
 };
 
 
@@ -73,7 +74,6 @@ static const pio_t cols[] = {
     LEDMAT_COL1_PIO, LEDMAT_COL2_PIO, LEDMAT_COL3_PIO,
     LEDMAT_COL4_PIO, LEDMAT_COL5_PIO
 };
-
 
 static const uint8_t ROCK_INVERSE_BITMAP[] = {
     0x00, 0x07, 0x07, 0x07, 0x00
@@ -230,22 +230,24 @@ Bitmap_Info display_bitmap(uint8_t current_column, uint8_t current_bitmap, uint8
             locked_in = 1;
         }
 
+        if (opponent_bitmap == 0) {
+
+            if (current_bitmap == 1) {
+                display_column (ROCK_BITMAP[current_column], current_column);
+            } else if (current_bitmap == 2) {
+                display_column (PAPER_BITMAP[current_column], current_column);
+            } else if (current_bitmap == 3) {
+                display_column (SCISSORS_BITMAP[current_column], current_column);
+            }
+
+
+        }
+
 
     }
 
 
-    if (opponent_bitmap == 0) {
-
-        if (current_bitmap == 1) {
-            display_column (ROCK_BITMAP[current_column], current_column);
-        } else if (current_bitmap == 2) {
-            display_column (PAPER_BITMAP[current_column], current_column);
-        } else if (current_bitmap == 3) {
-            display_column (SCISSORS_BITMAP[current_column], current_column);
-        }
-
-
-    } else {
+    if (opponent_bitmap != 0) {
 
         // rock and rock
         if (current_bitmap == 1 && opponent_bitmap == 1) {
@@ -286,6 +288,8 @@ Bitmap_Info display_bitmap(uint8_t current_column, uint8_t current_bitmap, uint8
             display_column (SCISSORS_SCISSORS_BITMAP[current_column], current_column);
         }
     }
+
+
     current_column++;
 
     if (current_column > (LEDMAT_COLS_NUM - 1)) {
@@ -309,12 +313,15 @@ int main (void)
     system_init ();
     pacer_init (500);
     button_init ();
+    led_matrix_init();
+    led_init ();
+    bitmaps_init();
 
     uint8_t in_selection_phase = 1;
     uint8_t in_comparison_phase = 0;
     uint8_t in_outcome_phase = 0;
-    uint8_t locked_bitmap = 0;
-    uint8_t recieved = 0;
+    char recieved = 0;
+    led_set (LED1, 0); // LIGHT OFF
 
 
     while (1) {
@@ -323,30 +330,38 @@ int main (void)
         navswitch_update ();
         led_matrix_init();
 
-        if (in_selection_phase) {
+        if (bitmap.locked_in == 0) {
             bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
-            if (bitmap.locked_in) {
-                locked_bitmap = bitmap.current_bitmap;
+            if (bitmap.locked_in == 1) {
                 in_comparison_phase = 1;
+                led_matrix_init();
+
             }
         }
 
-        if (in_comparison_phase && in_selection_phase) {
-            ir_uart_putc(locked_bitmap);  //sending
+        if (in_comparison_phase == 1 && in_selection_phase == 1) {
+            led_set (LED1, 1); // LIGHT ON
+            ir_uart_putc(bitmap.current_bitmap);  //sending
         }
-        if (ir_uart_read_ready_p() && in_selection_phase) {
+        if (ir_uart_read_ready_p()) {
             recieved = ir_uart_getc();
+            led_set (LED1, 0); // LIGHT OFF
             if (recieved == 1 || recieved == 2 || recieved == 3) {
                 bitmap.opponent_bitmap = recieved; //recieving
             }
         }
 
-        if (in_comparison_phase && bitmap.opponent_bitmap != 0) {
+        if (in_comparison_phase == 1 && recieved != 0) { //have recieved
+
             in_selection_phase = 0;
+
+
             bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
         }
 
 
 
+
     }
 }
+
