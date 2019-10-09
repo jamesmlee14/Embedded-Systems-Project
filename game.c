@@ -321,12 +321,16 @@ int main (void)
     uint8_t in_selection_phase = 0;
     uint8_t in_transmission_phase = 0;
     uint8_t in_outcome_phase = 0;
+
+    uint8_t sent = 0;
     char recieved = 0;
 
     char is_player1 = 'F';
     char is_player2 = 'F';
 
     led_set (LED1, 0); // LIGHT OFF
+
+
 
 
 
@@ -364,23 +368,25 @@ int main (void)
 
         if (in_selection_phase && !bitmap.locked_in) {
             bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
-            led_set (LED1, 1); // LIGHT ON
             if (bitmap.locked_in) {
                 in_transmission_phase = 1;
                 led_matrix_init();
+                in_selection_phase = 0;
             }
         }
 
 
+        if (in_transmission_phase && !sent) {
 
-
-
-/*
-        if (in_transmission_phase && in_selection_phase) {
             led_set (LED1, 1); // LIGHT ON
+
             ir_uart_putc(bitmap.current_bitmap);  //sending
+            sent = 1;
         }
-        if (ir_uart_read_ready_p()) {
+
+
+
+        if (ir_uart_read_ready_p() && sent) {
             recieved = ir_uart_getc();
 
             if (recieved == 1 || recieved == 2 || recieved == 3) {
@@ -392,13 +398,10 @@ int main (void)
 
         if (in_transmission_phase && recieved != 0) { //have recieved
 
-            in_selection_phase = 0;
-            led_set (LED1, 0); // LIGHT OFF
-
 
             bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
         }
-*/
+
 
 
 
