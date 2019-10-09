@@ -99,9 +99,6 @@ static const uint8_t SCISSORS_BITMAP[] = {
     0x50, 0x50, 0x20, 0x70, 0x70
 };
 
-
-
-
 static const uint8_t ROCK_ROCK_BITMAP[] = {
     0x00, 0x77, 0x77, 0x77, 0x00
 };
@@ -224,9 +221,7 @@ Bitmap_Info display_bitmap(uint8_t current_column, uint8_t current_bitmap, uint8
             }
         }
 
-        button_update ();
-
-        if (button_push_event_p (BUTTON1)) {
+        if (navswitch_push_event_p (NAVSWITCH_NORTH)) {
             locked_in = 1;
         }
 
@@ -312,7 +307,6 @@ int main (void)
     navswitch_init ();
     system_init ();
     pacer_init (500);
-    button_init ();
     led_matrix_init();
     led_init ();
     bitmaps_init();
