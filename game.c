@@ -397,12 +397,13 @@ int main (void)
         }
 
         if (in_transmission_phase && recieved != 0) { //have recieved
-
-
-            bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
+            in_transmission_phase = 0;
+            in_outcome_phase = 1;
         }
 
-
+        if (in_outcome_phase) {
+            bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
+        }
 
 
 
