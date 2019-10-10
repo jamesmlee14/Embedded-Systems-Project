@@ -14,9 +14,8 @@ DEL = rm
 # Default target.
 all: game.out
 
-#../../assignment/group219/bitmaps.h
 # Compile: create object files from C source files.
-game.o: game.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../utils/pacer.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../drivers/led.h ../../drivers/display.h ../../fonts/font5x7_1.h ../../utils/font.h ../../utils/tinygl.h ../../drivers/button.h
+game.o: game.c bitmap.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../utils/pacer.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../drivers/led.h ../../drivers/display.h ../../fonts/font5x7_1.h ../../utils/font.h ../../utils/tinygl.h ../../drivers/button.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -58,21 +57,19 @@ font.o: ../../utils/font.c ../../drivers/avr/system.h ../../utils/font.h
 tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/font.h ../../utils/tinygl.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-
 display.o: ../../drivers/display.c ../../drivers/avr/system.h ../../drivers/display.h ../../drivers/ledmat.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 ledmat.o: ../../drivers/ledmat.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/ledmat.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-
-# bitmaps.o: ../../bitmaps.c ../../bitmaps.h
-#	$(CC) -c $(CFLAGS) $< -o $@
+bitmap.o: bitmap.c bitmap.h ../../drivers/navswitch.h ../../drivers/avr/system.h ../../drivers/avr/pio.h
+	$(CC) -c $(CFLAGS) $< -o $@
 
 
 
 # Link: create ELF output file from object files.
-game.out: game.o system.o pacer.o pio.o timer.o navswitch.o ir_uart.o usart1.o timer0.o prescale.o led.o font.o tinygl.o display.o ledmat.o button.o
+game.out: game.o system.o timer.o pacer.o pio.o navswitch.o ir_uart.o usart1.o timer0.o prescale.o led.o button.o font.o tinygl.o display.o ledmat.o bitmap.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
