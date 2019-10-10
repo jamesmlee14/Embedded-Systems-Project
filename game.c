@@ -44,6 +44,7 @@
 #include "pacer.h"
 #include "timer.h"
 #include "led.h"
+
 #include "tinygl.h"
 #include "../fonts/font5x7_1.h"
 #include "button.h"
@@ -162,7 +163,6 @@ static void display_column (uint8_t row_pattern, uint8_t current_column)
 {
 
     static uint8_t prev_column = 0;
-
     pio_output_high (cols[prev_column]);
 
     for (uint8_t i = 0; i < 7; i++) { //7 times
@@ -172,11 +172,8 @@ static void display_column (uint8_t row_pattern, uint8_t current_column)
             pio_output_high (rows[i]);
         }
     }
-
     pio_output_low (cols[current_column]);
     prev_column = current_column;
-
-
 
 }
 
@@ -317,6 +314,10 @@ int main (void)
     ir_uart_init();
     button_init();
 
+    tinygl_init (500);
+    tinygl_font_set (&font5x7_1);
+    tinygl_text_speed_set (10);
+
     uint8_t in_player_phase = 1;
     uint8_t in_selection_phase = 0;
     uint8_t in_transmission_phase = 0;
@@ -340,10 +341,10 @@ int main (void)
         navswitch_update ();
         led_matrix_init();
 
-
-
-
         if (in_player_phase) {
+
+            //display_character ('V');
+            led_set (LED1, 1); // LIGHT ON
 
             button_update ();
 
@@ -367,6 +368,7 @@ int main (void)
 
 
         if (in_selection_phase && !bitmap.locked_in) {
+            led_set (LED1, 0); // LIGHT OFF
             bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
             if (bitmap.locked_in) {
                 in_transmission_phase = 1;
@@ -384,11 +386,12 @@ int main (void)
             sent = 1;
         }
 
-
-
-        if (ir_uart_read_ready_p() && sent) {
+        if (ir_uart_read_ready_p() && recieved == 0) {
             recieved = ir_uart_getc();
 
+        }
+
+        if (sent) {
             if (recieved == 1 || recieved == 2 || recieved == 3) {
                 bitmap.opponent_bitmap = recieved; //recieving
             } else {
@@ -396,12 +399,14 @@ int main (void)
             }
         }
 
+
         if (in_transmission_phase && recieved != 0) { //have recieved
             in_transmission_phase = 0;
             in_outcome_phase = 1;
         }
 
         if (in_outcome_phase) {
+            led_set (LED1, 0); // LIGHT OFF
             bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
         }
 
