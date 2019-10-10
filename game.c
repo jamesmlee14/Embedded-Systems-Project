@@ -55,7 +55,10 @@
 
 #include "ir_uart.h"
 
+#include "bitmap.h"
 
+
+/*
 typedef struct bitmap_info_s Bitmap_Info;
 
 struct bitmap_info_s {
@@ -64,30 +67,21 @@ struct bitmap_info_s {
     uint8_t opponent_bitmap;
     uint8_t locked_in;
 };
+*/
 
 
-/** Define PIO pins driving LED matrix rows.  */
-static const pio_t rows[] = {
-    LEDMAT_ROW1_PIO, LEDMAT_ROW2_PIO, LEDMAT_ROW3_PIO,
-    LEDMAT_ROW4_PIO, LEDMAT_ROW5_PIO, LEDMAT_ROW6_PIO,
-    LEDMAT_ROW7_PIO
+
+const uint8_t ARROW_BITMAP[] = {
+    0x02, 0x07, 0x0A, 0x02, 0x02
 };
 
-
-/** Define PIO pins driving LED matrix columns.  */
-static const pio_t cols[] = {
-    LEDMAT_COL1_PIO, LEDMAT_COL2_PIO, LEDMAT_COL3_PIO,
-    LEDMAT_COL4_PIO, LEDMAT_COL5_PIO
-};
-
+/*
 static const uint8_t ROCK_INVERSE_BITMAP[] = {
     0x00, 0x07, 0x07, 0x07, 0x00
 };
-
 static const uint8_t PAPER_INVERSE_BITMAP[] = {
     0x07, 0x07, 0x07, 0x07, 0x07
 };
-
 static const uint8_t SCISSORS_INVERSE_BITMAP[] = {
     0x05, 0x05, 0x02, 0x07, 0x07
 };
@@ -95,11 +89,9 @@ static const uint8_t SCISSORS_INVERSE_BITMAP[] = {
 static const uint8_t ROCK_BITMAP[] = {
     0x00, 0x70, 0x70, 0x70, 0x00
 };
-
 static const uint8_t PAPER_BITMAP[] = {
     0x70, 0x70, 0x70, 0x70, 0x70
 };
-
 static const uint8_t SCISSORS_BITMAP[] = {
     0x50, 0x50, 0x20, 0x70, 0x70
 };
@@ -107,75 +99,53 @@ static const uint8_t SCISSORS_BITMAP[] = {
 static const uint8_t ROCK_ROCK_BITMAP[] = {
     0x00, 0x77, 0x77, 0x77, 0x00
 };
-
 static const uint8_t ROCK_PAPER_BITMAP[] = {
     0x07, 0x77, 0x77, 0x77, 0x07
 };
-
 static const uint8_t ROCK_SCISSORS_BITMAP[] = {
     0x05, 0x75, 0x72, 0x77, 0x07
 };
 
-
 static const uint8_t PAPER_ROCK_BITMAP[] = {
     0x70, 0x77, 0x77, 0x77, 0x70
 };
-
 static const uint8_t PAPER_PAPER_BITMAP[] = {
     0x77, 0x77, 0x77, 0x77, 0x77
 };
-
 static const uint8_t PAPER_SCISSORS_BITMAP[] = {
     0x75, 0x75, 0x72, 0x77, 0x77
 };
 
-
 static const uint8_t SCISSORS_ROCK_BITMAP[] = {
     0x50, 0x57, 0x27, 0x77, 0x70
 };
-
 static const uint8_t SCISSORS_PAPER_BITMAP[] = {
     0x57, 0x57, 0x27, 0x77, 0x77
 };
-
 static const uint8_t SCISSORS_SCISSORS_BITMAP[] = {
     0x55, 0x55, 0x22, 0x77, 0x77
 };
 
-
-
-
 static const uint8_t WIN_BITMAP[] = {
     0x22, 0x22, 0x2A, 0x2A, 0x14
 };
-
 static const uint8_t DRAW_BITMAP[] = {
     0x38, 0x24, 0x24, 0x24, 0x38
 };
-
 static const uint8_t LOSS_BITMAP[] = {
     0x10, 0x10, 0x10, 0x10, 0x1C
 };
 
+static const uint8_t ARROW_BITMAP[] = {
+    0x20, 0x20, 0xA0, 0x70, 0x20
+};
+*/
 
-
-static void display_column (uint8_t row_pattern, uint8_t current_column)
-{
-
-    static uint8_t prev_column = 0;
-    pio_output_high (cols[prev_column]);
-
-    for (uint8_t i = 0; i < 7; i++) { //7 times
-        if (row_pattern >> i & 1) {
-            pio_output_low (rows[i]);
-        } else {
-            pio_output_high (rows[i]);
-        }
-    }
-    pio_output_low (cols[current_column]);
-    prev_column = current_column;
-
-}
+// 0010 0000
+// 0010 0000
+// 1010 1000
+// 0111 0000
+// 0010 0000
 
 
 void led_matrix_init(void)
@@ -198,6 +168,27 @@ void led_matrix_init(void)
 
 
 }
+
+
+/*
+void display_column (uint8_t row_pattern, uint8_t current_column)
+{
+
+    static uint8_t prev_column = 0;
+    pio_output_high (cols[prev_column]);
+
+    for (uint8_t i = 0; i < 7; i++) { //7 times
+        if (row_pattern >> i & 1) {
+            pio_output_low (rows[i]);
+        } else {
+            pio_output_high (rows[i]);
+        }
+    }
+    pio_output_low (cols[current_column]);
+    prev_column = current_column;
+
+}
+
 
 
 Bitmap_Info display_bitmap(uint8_t current_column, uint8_t current_bitmap, uint8_t opponent_bitmap, uint8_t locked_in)
@@ -296,6 +287,16 @@ Bitmap_Info display_bitmap(uint8_t current_column, uint8_t current_bitmap, uint8
     return update;
 
 }
+*/
+
+
+void display_character (char character)
+{
+    char buffer[2];
+    buffer[0] = character;
+    buffer[1] = '\0';
+    tinygl_text (buffer);
+}
 
 
 
@@ -331,7 +332,7 @@ int main (void)
 
     led_set (LED1, 0); // LIGHT OFF
 
-
+    uint8_t current_column = 0;
 
 
 
@@ -340,10 +341,18 @@ int main (void)
         pacer_wait ();
         navswitch_update ();
         led_matrix_init();
+        tinygl_update ();
 
         if (in_player_phase) {
 
-            //display_character ('V');
+            display_column (ARROW_BITMAP[current_column], current_column);
+
+            current_column++;
+
+            if (current_column > (LEDMAT_COLS_NUM - 1)) {
+                current_column = 0;
+            }
+
             led_set (LED1, 1); // LIGHT ON
 
             button_update ();
@@ -368,6 +377,7 @@ int main (void)
 
 
         if (in_selection_phase && !bitmap.locked_in) {
+            led_matrix_init();
             led_set (LED1, 0); // LIGHT OFF
             bitmap = display_bitmap(bitmap.current_column, bitmap.current_bitmap, bitmap.opponent_bitmap, bitmap.locked_in);
             if (bitmap.locked_in) {
@@ -415,4 +425,5 @@ int main (void)
 
 
     }
+
 }
