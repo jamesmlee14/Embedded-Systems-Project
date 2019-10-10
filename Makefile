@@ -14,9 +14,9 @@ DEL = rm
 # Default target.
 all: game.out
 
-
+#../../assignment/group219/bitmaps.h
 # Compile: create object files from C source files.
-game.o: game.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../utils/pacer.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../drivers/led.h ../../fonts/font5x7_1.h ../../utils/font.h ../../utils/tinygl.h ../../drivers/display.h ../../drivers/button.h
+game.o: game.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../utils/pacer.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../drivers/led.h ../../drivers/display.h ../../fonts/font5x7_1.h ../../utils/font.h ../../utils/tinygl.h ../../drivers/button.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -52,8 +52,6 @@ led.o: ../../drivers/led.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ..
 button.o: ../../drivers/button.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/button.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-
-
 font.o: ../../utils/font.c ../../drivers/avr/system.h ../../utils/font.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
@@ -66,6 +64,10 @@ display.o: ../../drivers/display.c ../../drivers/avr/system.h ../../drivers/disp
 
 ledmat.o: ../../drivers/ledmat.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/ledmat.h
 	$(CC) -c $(CFLAGS) $< -o $@
+
+
+# bitmaps.o: ../../bitmaps.c ../../bitmaps.h
+#	$(CC) -c $(CFLAGS) $< -o $@
 
 
 
