@@ -41,7 +41,7 @@ struct bitmap_info_s {
 void display_column (uint8_t row_pattern, uint8_t current_column);
 
 /** displays bitmap by calling display_column  */
-Bitmap_Info display_bitmap(uint8_t current_column, uint8_t current_bitmap, uint8_t opponent_bitmap, uint8_t locked_in);
+Bitmap_Info display_bitmap(Bitmap_Info bitmap);
 
 /** declares bitmap variables  */
 void bitmaps_init(void);
