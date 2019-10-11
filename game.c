@@ -50,11 +50,11 @@
 
 #include "bitmap.h"
 #include "player_assignment.h"
+#include "selection.h"
 
 
 void led_matrix_refresh(void)
 {
-
     /*Refresh LED matrix pins.  */
     pio_config_set (LEDMAT_COL1_PIO, PIO_OUTPUT_HIGH);
     pio_config_set (LEDMAT_COL2_PIO, PIO_OUTPUT_HIGH);
@@ -69,16 +69,12 @@ void led_matrix_refresh(void)
     pio_config_set (LEDMAT_ROW5_PIO, PIO_OUTPUT_HIGH);
     pio_config_set (LEDMAT_ROW6_PIO, PIO_OUTPUT_HIGH);
     pio_config_set (LEDMAT_ROW7_PIO, PIO_OUTPUT_HIGH);
-
-
 }
 
 
 
 int main (void)
 {
-
-
     navswitch_init ();
     system_init ();
     pacer_init (500);
@@ -107,7 +103,7 @@ int main (void)
         pacer_wait ();
         navswitch_update ();
 
-        //PLAYER ASSIGNMENT
+        // PLAYER ASSIGNMENT
         if (in_player_assignment) {
 
             player = player_assignment(player);
@@ -120,14 +116,16 @@ int main (void)
             }
         }
 
+        // SELECTION
+        if (in_selection_phase) {
 
-        if (in_selection_phase && !bitmap.locked_in) {
             led_matrix_refresh();
-            led_set (LED1, 0); // LIGHT OFF
-            bitmap = display_bitmap(bitmap);
+            bitmap = selection(bitmap);
+
             if (bitmap.locked_in) {
-                in_transmission_phase = 1;
+
                 led_matrix_refresh();
+                in_transmission_phase = 1;
                 in_selection_phase = 0;
             }
         }
