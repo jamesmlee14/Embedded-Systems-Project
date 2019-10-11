@@ -88,6 +88,7 @@ int main (void)
     button_init();
 
     Bitmap_Info bitmap = {0, 4, 0, 0};
+    Player_Info player = {bitmap, 'F', 'F'};
     uint8_t in_player_assignment = 1;
     uint8_t in_selection_phase = 0;
     uint8_t in_transmission_phase = 0;
@@ -96,8 +97,6 @@ int main (void)
     uint8_t sent = 0;
     char recieved = 0;
 
-    char is_player1 = 'F';
-    char is_player2 = 'F';
     uint8_t player_score = 0;
 
     led_set (LED1, 0); // LIGHT OFF
@@ -111,9 +110,9 @@ int main (void)
         //PLAYER ASSIGNMENT
         if (in_player_assignment) {
 
-            bitmap = player_assignment(bitmap, is_player1, is_player2);
+            player = player_assignment(player);
 
-            if (is_player1 == 'T' || is_player2 == 'T') {
+            if (player.is_player1 == 'T' || player.is_player2 == 'T') {
                 led_matrix_refresh();
                 bitmap.current_bitmap = 1;
                 in_player_assignment = 0;
