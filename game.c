@@ -108,12 +108,10 @@ int main (void)
         pacer_wait ();
         navswitch_update ();
 
-
-
         //PLAYER ASSIGNMENT
         if (in_player_assignment) {
-            player_assignment (bitmap, is_player1, is_player2);
-            led_matrix_refresh();
+
+            bitmap = player_assignment(bitmap, is_player1, is_player2);
 
             if (is_player1 == 'T' || is_player2 == 'T') {
                 led_matrix_refresh();
@@ -215,7 +213,7 @@ int main (void)
                 led_matrix_refresh();
 
                 if (player_score == 0) {
-                    bitmap.current_bitmap = 13;
+                    bitmap.current_bitmap = 10;
                 } else if (player_score == 1) {
                     bitmap.current_bitmap = 11;
                 } else if (player_score == 2) {
