@@ -127,7 +127,6 @@ const pio_t cols[] = {
 };
 
 
-
 void display_column (uint8_t row_pattern, uint8_t current_column)
 {
 
@@ -164,41 +163,22 @@ Bitmap_Info display_bitmap(Bitmap_Info bitmap)
     }
 
     // Code for Selection Phase
-    if (!bitmap.locked_in) {
-
-        if (navswitch_push_event_p (NAVSWITCH_EAST)) {
-            bitmap.current_bitmap++;
-            if (bitmap.current_bitmap > 3) {
-                bitmap.current_bitmap = 1;
-            }
-        }
-
-        if (navswitch_push_event_p (NAVSWITCH_WEST)) {
-            bitmap.current_bitmap--;
-            if (bitmap.current_bitmap < 1) {
-                bitmap.current_bitmap = 3;
-            }
-        }
-
-        if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
-            bitmap.locked_in = 1;
-        }
-
-        if (bitmap.opponent_bitmap == 0) {
-
-            if (bitmap.current_bitmap == 1) {
-                display_column (ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
-            } else if (bitmap.current_bitmap == 2) {
-                display_column (PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
-            } else if (bitmap.current_bitmap == 3) {
-                display_column (SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
-            }
 
 
+    if (bitmap.opponent_bitmap == 0) {
+
+        if (bitmap.current_bitmap == 1) {
+            display_column (ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
+        } else if (bitmap.current_bitmap == 2) {
+            display_column (PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
+        } else if (bitmap.current_bitmap == 3) {
+            display_column (SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
         }
 
 
     }
+
+
 
     // Code for Outcome Phase
 
@@ -258,7 +238,7 @@ Bitmap_Info display_bitmap(Bitmap_Info bitmap)
 
         // Score
 
-         else if (bitmap.current_bitmap == 10) {
+        else if (bitmap.current_bitmap == 10) {
             display_column (ZERO_BITMAP[bitmap.current_column], bitmap.current_column);
         } else if (bitmap.current_bitmap == 11) {
             display_column (ONE_BITMAP[bitmap.current_column], bitmap.current_column);
