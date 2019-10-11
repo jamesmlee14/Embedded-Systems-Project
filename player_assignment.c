@@ -50,26 +50,22 @@ Bitmap_Info player_assignment (Bitmap_Info bitmap, char is_player1, char is_play
             }
         }
 
-    } else {
+    }
+
+
+    if (is_player1 == 'T' || is_player2 == 'T') {
+
+        if (is_player1 == 'T') {
+                bitmap.current_bitmap = 5;
+            } else {
+                bitmap.current_bitmap = 6;
+            }
 
         uint16_t counter = 0;
         while (counter < 2500) { //wait 5sec
-
-            if (is_player1 == 'T') {
-
-                bitmap.current_bitmap = 5;
-
-                bitmap = display_bitmap(bitmap);
-
-            } else {
-
-                bitmap.current_bitmap = 6;
-
-                bitmap = display_bitmap(bitmap);
-
-            }
             pacer_wait ();
             counter++;
+            bitmap = display_bitmap(bitmap);
         }
 
         counter = 0;
