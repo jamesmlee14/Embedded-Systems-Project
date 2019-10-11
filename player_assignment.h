@@ -28,10 +28,17 @@
 #include "system.h"
 #include "bitmap.h"
 
+typedef struct player_info_s Player_Info;
+
+struct player_info_s {
+    Bitmap_Info bitmap;
+    char is_player1;
+    char is_player2;
+};
 
 
 /** runs the player assignment phase of the game. */
-Bitmap_Info player_assignment (Bitmap_Info bitmap, char is_player1, char is_player2);
+Player_Info player_assignment (Player_Info player);
 
 #endif
 
