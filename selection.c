@@ -27,6 +27,7 @@
 
 Bitmap_Info selection(Bitmap_Info bitmap)
 {
+    led_set (LED1, 1); // LIGHT ON
 
     if (!bitmap.locked_in) {
 
