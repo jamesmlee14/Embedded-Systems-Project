@@ -161,6 +161,7 @@ int main (void)
         if (in_outcome_phase) {
             led_set (LED1, 0); // LIGHT OFF
 
+
             uint16_t counter = 0;
             while (counter < 2500) { //wait 5sec
                 pacer_wait ();
@@ -168,28 +169,23 @@ int main (void)
                 bitmap = display_bitmap(bitmap);
             }
 
-            in_outcome_phase = 0;
 
             char outcome = 'X';
 
             if ((bitmap.current_bitmap == 1 && bitmap.opponent_bitmap == 3) || (bitmap.current_bitmap == 2 && bitmap.opponent_bitmap == 1) || (bitmap.current_bitmap == 3 && bitmap.opponent_bitmap == 2)) { // win
-                outcome = 'W'
-
+                outcome = 'W';
+            }
             if ((bitmap.current_bitmap == 1 && bitmap.opponent_bitmap == 2) || (bitmap.current_bitmap == 2 && bitmap.opponent_bitmap == 3) || (bitmap.current_bitmap == 3 && bitmap.opponent_bitmap == 1)) { // loss
-                outcome = 'L'
-
+                outcome = 'L';
+            }
             if (bitmap.current_bitmap == bitmap.opponent_bitmap) {  // draw
                 outcome = 'D';
             }
 
-            counter = 0;
-            while (counter < 2500) { //wait 5sec
-                pacer_wait ();
-                counter++;
 
-                led_matrix_refresh();
 
-                if (outcome == 'W') {
+            if (outcome == 'W') {
+                    player_score++;
                     led_set (LED1, 1); // LIGHT ON
                     bitmap.current_bitmap = 7;
 
@@ -199,19 +195,19 @@ int main (void)
                 } else if (outcome == 'D') {
                     bitmap.current_bitmap = 9;
                 }
+
+            counter = 0;
+            led_matrix_refresh();
+
+            while (counter < 2500) { //display outcome for 5sec
+
+                pacer_wait ();
+                counter++;
                 bitmap = display_bitmap(bitmap);
 
             }
 
-
-            counter = 0;
-            while (counter < 2500) { //wait 5sec
-                pacer_wait ();
-                counter++;
-
-                led_matrix_refresh();
-
-                if (player_score == 0) {
+            if (player_score == 0) {
                     bitmap.current_bitmap = 10;
                 } else if (player_score == 1) {
                     bitmap.current_bitmap = 11;
@@ -220,6 +216,14 @@ int main (void)
                 } else if (player_score == 3) {
                     bitmap.current_bitmap = 13;
                 }
+
+            counter = 0;
+            led_matrix_refresh();
+            led_set (LED1, 0); // LIGHT OFF
+            while (counter < 2500) { //display score for 5sec
+
+                pacer_wait ();
+                counter++;
                 bitmap = display_bitmap(bitmap);
 
             }
@@ -241,6 +245,9 @@ int main (void)
             sent = 0;
             recieved = 0;
 
+
+
+            in_outcome_phase = 0;
         }
 
 
