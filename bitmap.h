@@ -28,20 +28,24 @@
 #include "system.h"
 #include "navswitch.h"
 
-typedef struct bitmap_info_s Bitmap_Info;
+typedef struct player_bitmap_s Player_Bitmap;
 
-struct bitmap_info_s {
+struct player_bitmap_s {
     uint8_t current_column;
     uint8_t current_bitmap;
     uint8_t opponent_bitmap;
     uint8_t locked_in;
+    uint8_t player;
 };
+
+/** sets led matrix to all high  */
+void bitmap_refresh(void);
 
 /** displays columns  */
 void display_column (uint8_t row_pattern, uint8_t current_column);
 
 /** displays bitmap by calling display_column  */
-Bitmap_Info display_bitmap(Bitmap_Info bitmap);
+Player_Bitmap display_bitmap(Player_Bitmap bitmap);
 
 
 #endif
