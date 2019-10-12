@@ -29,7 +29,7 @@
 #include "bitmap.h"
 
 /** Selection phase  */
-Bitmap_Info selection(Bitmap_Info bitmap);
+Player_Bitmap selection(Player_Bitmap bitmap);
 
 #endif
 
