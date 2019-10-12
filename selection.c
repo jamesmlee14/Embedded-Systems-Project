@@ -23,6 +23,7 @@
 
 
 #include "bitmap.h"
+#include "led.h"
 
 
 Bitmap_Info selection(Bitmap_Info bitmap)
