@@ -24,6 +24,7 @@
 #include "system.h"
 #include "bitmap.h"
 #include "ir_uart.h"
+#include "led.h"
 
 Bitmap_Info transmission(Bitmap_Info bitmap)
 {
@@ -32,7 +33,12 @@ Bitmap_Info transmission(Bitmap_Info bitmap)
 
     led_set (LED1, 1); // LIGHT ON
     ir_uart_init();
-    while (recieved == 0) {
+
+    while (bitmap.opponent_bitmap == 0) {
+
+        if (ir_uart_read_ready_p() && recieved == 0) {
+            recieved = ir_uart_getc();
+        }
 
         if (!sent) {
 
@@ -40,12 +46,6 @@ Bitmap_Info transmission(Bitmap_Info bitmap)
             sent = 1;
 
         }
-
-        if (ir_uart_read_ready_p() && recieved == 0) {
-            recieved = ir_uart_getc();
-        }
-
-
         if (sent) {
             if (recieved == 1 || recieved == 2 || recieved == 3) {
                 bitmap.opponent_bitmap = recieved; //recieving
