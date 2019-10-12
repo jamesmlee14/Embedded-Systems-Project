@@ -32,51 +32,50 @@
 #include "player_assignment.h"
 
 
-Player_Info player_assignment (Player_Info player)
+Player_Bitmap player_assignment (Player_Bitmap bitmap)
 {
 
-    if (player.is_player1 == 'F' && player.is_player2 == 'F') {
+    if (!bitmap.player) {
 
-        player.bitmap = display_bitmap(player.bitmap);
+        bitmap = display_bitmap(bitmap);
         led_set (LED1, 1); // LIGHT ON
         button_update ();
 
         if (button_push_event_p (BUTTON1)) {
-            player.is_player1 = 'T';
-            ir_uart_putc('T');  //sending
+            bitmap.player = 1;
+            bitmap.current_bitmap = 5;
+            ir_uart_putc(2);  //sending
         }
         if (ir_uart_read_ready_p()) {
             char set_player2 = ir_uart_getc();
-            if (set_player2 == 'T') {
-                player.is_player2 = set_player2;
+            if (set_player2 == 2) {
+                bitmap.player = set_player2;
+                bitmap.current_bitmap = 6;
             }
         }
     }
 
 
-    if (player.is_player1 == 'T' || player.is_player2 == 'T') {
+    if (bitmap.player) {
         led_set (LED1, 0); // LIGHT OFF
 
-        if (player.is_player1 == 'T') {
-                player.bitmap.current_bitmap = 5;
-            } else {
-                player.bitmap.current_bitmap = 6;
-            }
 
         uint16_t counter = 0;
+        bitmap_refresh();
         while (counter < 2500) { //wait 5sec
             pacer_wait ();
             counter++;
-            player.bitmap = display_bitmap(player.bitmap);
+            bitmap = display_bitmap(bitmap);
         }
 
         counter = 0;
+        bitmap_refresh();
         while (counter < 500) { //wait 1sec
             pacer_wait ();
             counter++;
         }
     }
 
-    return player;
+    return bitmap;
 
 }
