@@ -25,6 +25,7 @@
 #include "outcome.h"
 #include "bitmap.h"
 #include "led.h"
+#include "pacer.h"
 
 
 
@@ -55,6 +56,7 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
         bitmap.current_bitmap = 7;
 
     } else if (outcome == 2) {   // LOSS
+        bitmap.opponent_score++;
         bitmap.current_bitmap = 8;
 
     } else if (outcome == 0) {   // DRAW
@@ -91,6 +93,20 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
         counter++;
         bitmap = display_bitmap(bitmap);
 
+    }
+    if (bitmap.player_score == 3 || bitmap.opponent_score == 3) {
+        bitmap.current_bitmap = 7;
+
+        counter = 1;
+        bitmap_refresh();
+        led_set (LED1, 0); // LIGHT OFF
+        while (counter) {     //display game outcome forever
+
+            pacer_wait ();
+            counter++;
+            bitmap = display_bitmap(bitmap);
+
+        }
     }
 
     bitmap_refresh();
