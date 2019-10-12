@@ -26,7 +26,7 @@
 #include "ir_uart.h"
 #include "led.h"
 
-Bitmap_Info transmission(Bitmap_Info bitmap)
+Player_Bitmap transmission(Player_Bitmap bitmap)
 {
     uint8_t sent = 0;
     char recieved = 0;
