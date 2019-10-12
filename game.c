@@ -172,9 +172,11 @@ int main (void)
 
             char outcome = 'X';
 
-            // win
+            if ((bitmap.current_bitmap == 1 && bitmap.opponent_bitmap == 3) || (bitmap.current_bitmap == 2 && bitmap.opponent_bitmap == 1) || (bitmap.current_bitmap == 3 && bitmap.opponent_bitmap == 2)) { // win
+                outcome = 'W'
 
-            // loss
+            if ((bitmap.current_bitmap == 1 && bitmap.opponent_bitmap == 2) || (bitmap.current_bitmap == 2 && bitmap.opponent_bitmap == 3) || (bitmap.current_bitmap == 3 && bitmap.opponent_bitmap == 1)) { // loss
+                outcome = 'L'
 
             if (bitmap.current_bitmap == bitmap.opponent_bitmap) { // draw
                 outcome = 'D';
