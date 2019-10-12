@@ -31,7 +31,7 @@
 
 
 /** Transmission Phase  */
-Bitmap_Info transmission(Bitmap_Info bitmap);
+Player_Bitmap transmission(Player_Bitmap bitmap);
 
 
 #endif
