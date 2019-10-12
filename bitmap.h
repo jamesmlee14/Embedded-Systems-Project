@@ -36,6 +36,7 @@ struct player_bitmap_s {
     uint8_t opponent_bitmap;
     uint8_t locked_in;
     uint8_t player;
+    uint8_t player_score;
 };
 
 /** sets led matrix to all high  */
