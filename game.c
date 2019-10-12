@@ -7,27 +7,15 @@
 *
 * Flow:
 *
-* Stage 1: (Not Finished)
-* Establish player 1 and player 2 using IR.
+* 1. Player Assignment
 *
-* Stage 2: (Finished)
+* 2. Selection Phase
 *
-* Both players can toggle between the 3 bitmaps
-* using navswitch east/west.
+* 3. Transmission Phase
 *
-* pressing Button1 locks player to the current bitmap.
+* 4. Outcome Phase
 *
-*
-*
-* Stag 3: (Not Finished)
-*
-* When both players are ready, they will press navswitch push
-*
-*  the symbol (Rock/Paper/Scissors) that each player selected
-* is transferred to the other players screen using ir_uart module
-*
-* after a 3 second delay, one of three messages (W, L, T) is displayed
-* depending on if the player WON, LOST, or TIED
+* Repeat
 *
 * REPEAT
 *
@@ -48,9 +36,12 @@
 
 #include "ir_uart.h"
 
+
+
 #include "bitmap.h"
 #include "player_assignment.h"
 #include "selection.h"
+#include "transmission.h"
 
 
 void led_matrix_refresh(void)
@@ -72,7 +63,6 @@ void led_matrix_refresh(void)
 }
 
 
-
 int main (void)
 {
     navswitch_init ();
@@ -90,8 +80,6 @@ int main (void)
     uint8_t in_transmission_phase = 0;
     uint8_t in_outcome_phase = 0;
 
-    uint8_t sent = 0;
-    char recieved = 0;
 
     uint8_t player_score = 0;
 
@@ -102,6 +90,7 @@ int main (void)
 
         pacer_wait ();
         navswitch_update ();
+
 
         // PLAYER ASSIGNMENT
         if (in_player_assignment) {
@@ -116,6 +105,7 @@ int main (void)
             }
         }
 
+
         // SELECTION
         if (in_selection_phase) {
 
@@ -125,45 +115,28 @@ int main (void)
             if (bitmap.locked_in) {
 
                 led_matrix_refresh();
+                led_set (LED1, 0); // LIGHT OFF
                 in_transmission_phase = 1;
                 in_selection_phase = 0;
             }
         }
 
 
-        if (in_transmission_phase && !sent) {
+        // TRANSMISSION
+        if (in_transmission_phase) {
 
-            led_set (LED1, 1); // LIGHT ON
-
-            ir_uart_putc(bitmap.current_bitmap);  //sending
-            sent = 1;
-        }
-
-        if (ir_uart_read_ready_p() && recieved == 0) {
-            recieved = ir_uart_getc();
-
-        }
-
-        if (sent) {
-            if (recieved == 1 || recieved == 2 || recieved == 3) {
-                bitmap.opponent_bitmap = recieved; //recieving
-            } else {
-                recieved = 0;
-            }
-        }
-
-
-        if (in_transmission_phase && recieved != 0) { //have recieved
+            bitmap = transmission(bitmap);
             in_transmission_phase = 0;
             in_outcome_phase = 1;
+
         }
 
+
         if (in_outcome_phase) {
-            led_set (LED1, 0); // LIGHT OFF
 
 
             uint16_t counter = 0;
-            while (counter < 2500) { //wait 5sec
+            while (counter < 2500) { //display both bitmaps for 5 sec
                 pacer_wait ();
                 counter++;
                 bitmap = display_bitmap(bitmap);
@@ -181,7 +154,6 @@ int main (void)
             if (bitmap.current_bitmap == bitmap.opponent_bitmap) {  // draw
                 outcome = 'D';
             }
-
 
 
             if (outcome == 'W') {
@@ -242,9 +214,6 @@ int main (void)
             in_selection_phase = 1;
             in_transmission_phase = 0;
             in_outcome_phase = 0;
-            sent = 0;
-            recieved = 0;
-
 
 
             in_outcome_phase = 0;
