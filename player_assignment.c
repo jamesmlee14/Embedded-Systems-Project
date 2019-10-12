@@ -55,6 +55,7 @@ Player_Info player_assignment (Player_Info player)
 
 
     if (player.is_player1 == 'T' || player.is_player2 == 'T') {
+        led_set (LED1, 0); // LIGHT OFF
 
         if (player.is_player1 == 'T') {
                 player.bitmap.current_bitmap = 5;
