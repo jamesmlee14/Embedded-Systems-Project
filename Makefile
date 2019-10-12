@@ -15,7 +15,7 @@ DEL = rm
 all: game.out
 
 # Compile: create object files from C source files.
-game.o: game.c bitmap.h player_assignment.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../utils/pacer.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../drivers/led.h ../../drivers/button.h
+game.o: game.c bitmap.h player_assignment.h selection.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../utils/pacer.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../drivers/led.h ../../drivers/button.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -58,8 +58,11 @@ bitmap.o: bitmap.c bitmap.h ../../drivers/navswitch.h ../../drivers/avr/system.h
 player_assignment.o: player_assignment.c player_assignment.h bitmap.h ../../drivers/avr/system.h ../../drivers/led.h ../../drivers/button.h ../../drivers/avr/ir_uart.h ../../utils/pacer.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+selection.o: selection.c selection.h bitmap.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 # Link: create ELF output file from object files.
-game.out: game.o system.o timer.o pacer.o pio.o navswitch.o ir_uart.o usart1.o timer0.o prescale.o led.o button.o bitmap.o player_assignment.o
+game.out: game.o system.o timer.o pacer.o pio.o navswitch.o ir_uart.o usart1.o timer0.o prescale.o led.o button.o bitmap.o player_assignment.o selection.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
