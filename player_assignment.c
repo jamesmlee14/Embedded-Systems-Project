@@ -67,13 +67,6 @@ Player_Bitmap player_assignment (Player_Bitmap bitmap)
             counter++;
             bitmap = display_bitmap(bitmap);
         }
-
-        counter = 0;
-        bitmap_refresh();
-        while (counter < 500) { //wait 1sec
-            pacer_wait ();
-            counter++;
-        }
     }
 
     return bitmap;
