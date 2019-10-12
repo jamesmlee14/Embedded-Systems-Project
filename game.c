@@ -54,7 +54,7 @@ int main (void)
     ir_uart_init();
     button_init();
 
-    Player_Bitmap bitmap = {0, 4, 0, 0, 0, 0};
+    Player_Bitmap bitmap = {0, 4, 0, 0, 0, 0, 0};
     uint8_t in_player_assignment = 1;
     uint8_t in_selection_phase = 0;
     uint8_t in_transmission_phase = 0;
