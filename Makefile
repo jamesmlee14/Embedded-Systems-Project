@@ -1,5 +1,5 @@
 # File:   Makefile
-# Authors: M. P. Hayes, UCECE, James Lee (47069483), Matthew Hornsby ()
+# Authors: M. P. Hayes, UCECE, James Lee (47069483)
 # Date:   12 Sep 2010, October 2019
 # Descr:  Makefile for game
 
@@ -15,7 +15,7 @@ DEL = rm
 all: game.out
 
 # Compile: create object files from C source files.
-game.o: game.c bitmap.h player_assignment.h selection.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../utils/pacer.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../drivers/led.h ../../drivers/button.h
+game.o: game.c bitmap.h player_assignment.h selection.h transmission.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../utils/pacer.h ../../drivers/navswitch.h ../../drivers/avr/ir_uart.h ../../drivers/led.h ../../drivers/button.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -61,8 +61,11 @@ player_assignment.o: player_assignment.c player_assignment.h bitmap.h ../../driv
 selection.o: selection.c selection.h bitmap.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
+transmission.o: transmission.c transmission.h bitmap.h ../../drivers/avr/ir_uart.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
 # Link: create ELF output file from object files.
-game.out: game.o system.o timer.o pacer.o pio.o navswitch.o ir_uart.o usart1.o timer0.o prescale.o led.o button.o bitmap.o player_assignment.o selection.o
+game.out: game.o system.o timer.o pacer.o pio.o navswitch.o ir_uart.o usart1.o timer0.o prescale.o led.o button.o bitmap.o player_assignment.o selection.o transmission.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
