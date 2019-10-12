@@ -30,25 +30,27 @@ Player_Bitmap transmission(Player_Bitmap bitmap)
 {
     uint8_t sent = 0;
     char recieved = 0;
-
-    led_set (LED1, 1); // LIGHT ON
     ir_uart_init();
 
-    while (bitmap.opponent_bitmap == 0) {
+    led_set (LED1, 1); // LIGHT ON
 
-        if (ir_uart_read_ready_p() && recieved == 0) {
-            recieved = ir_uart_getc();
-        }
+    int finished = 0;
+    while (!finished) {
 
         if (!sent) {
 
             ir_uart_putc(bitmap.current_bitmap);  //sending
             sent = 1;
-
         }
-        if (sent) {
+
+        if (ir_uart_read_ready_p() && !recieved) {
+            recieved = ir_uart_getc();
+        }
+
+        if (sent && recieved) {
             if (recieved == 1 || recieved == 2 || recieved == 3) {
                 bitmap.opponent_bitmap = recieved; //recieving
+                finished = 1;
             } else {
                 recieved = 0;
             }
