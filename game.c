@@ -44,37 +44,18 @@
 #include "transmission.h"
 
 
-void led_matrix_refresh(void)
-{
-    /*Refresh LED matrix pins.  */
-    pio_config_set (LEDMAT_COL1_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_COL2_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_COL3_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_COL4_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_COL5_PIO, PIO_OUTPUT_HIGH);
-
-    pio_config_set (LEDMAT_ROW1_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_ROW2_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_ROW3_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_ROW4_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_ROW5_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_ROW6_PIO, PIO_OUTPUT_HIGH);
-    pio_config_set (LEDMAT_ROW7_PIO, PIO_OUTPUT_HIGH);
-}
-
 
 int main (void)
 {
     navswitch_init ();
     system_init ();
     pacer_init (500);
-    led_matrix_refresh();
+    bitmap_refresh();
     led_init ();
     ir_uart_init();
     button_init();
 
-    Bitmap_Info bitmap = {0, 4, 0, 0};
-    Player_Info player = {bitmap, 'F', 'F'};
+    Player_Bitmap bitmap = {0, 4, 0, 0, 0};
     uint8_t in_player_assignment = 1;
     uint8_t in_selection_phase = 0;
     uint8_t in_transmission_phase = 0;
@@ -95,10 +76,10 @@ int main (void)
         // PLAYER ASSIGNMENT
         if (in_player_assignment) {
 
-            player = player_assignment(player);
+            bitmap = player_assignment(bitmap);
 
-            if (player.is_player1 == 'T' || player.is_player2 == 'T') {
-                led_matrix_refresh();
+            if (bitmap.player) {
+                bitmap_refresh();
                 bitmap.current_bitmap = 1;
                 in_player_assignment = 0;
                 in_selection_phase = 1;
@@ -109,12 +90,11 @@ int main (void)
         // SELECTION
         if (in_selection_phase) {
 
-            led_matrix_refresh();
             bitmap = selection(bitmap);
 
             if (bitmap.locked_in) {
 
-                led_matrix_refresh();
+                bitmap_refresh();
                 led_set (LED1, 0); // LIGHT OFF
                 in_transmission_phase = 1;
                 in_selection_phase = 0;
@@ -169,7 +149,7 @@ int main (void)
                 }
 
             counter = 0;
-            led_matrix_refresh();
+            bitmap_refresh();
 
             while (counter < 2500) { //display outcome for 5sec
 
@@ -190,7 +170,7 @@ int main (void)
                 }
 
             counter = 0;
-            led_matrix_refresh();
+            bitmap_refresh();
             led_set (LED1, 0); // LIGHT OFF
             while (counter < 2500) { //display score for 5sec
 
@@ -202,7 +182,7 @@ int main (void)
 
 
 
-            led_matrix_refresh();
+            bitmap_refresh();
             led_set (LED1, 0); // LIGHT OFF
 
 
