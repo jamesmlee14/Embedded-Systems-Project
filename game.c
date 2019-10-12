@@ -45,6 +45,16 @@
 
 
 
+int get_result(int current, int opponent)
+{
+    current++;
+    opponent++;
+    int result = (current - opponent + 3) % 3;
+    return result;
+}
+
+
+
 int main (void)
 {
     navswitch_init ();
@@ -96,8 +106,8 @@ int main (void)
 
                 bitmap_refresh();
                 led_set (LED1, 0); // LIGHT OFF
-                in_transmission_phase = 1;
                 in_selection_phase = 0;
+                in_transmission_phase = 1;
             }
         }
 
@@ -106,45 +116,37 @@ int main (void)
         if (in_transmission_phase) {
 
             bitmap = transmission(bitmap);
+
+            if (bitmap.opponent_bitmap)
             in_transmission_phase = 0;
             in_outcome_phase = 1;
 
         }
 
+        // OUTCOME
+
 
         if (in_outcome_phase) {
 
-
             uint16_t counter = 0;
-            while (counter < 2500) { //display both bitmaps for 5 sec
+            while (counter < 2500) {    //display both bitmaps for 5 sec
                 pacer_wait ();
                 counter++;
                 bitmap = display_bitmap(bitmap);
             }
 
 
-            char outcome = 'X';
+            int outcome = get_result(bitmap.current_bitmap, bitmap.opponent_bitmap);
 
-            if ((bitmap.current_bitmap == 1 && bitmap.opponent_bitmap == 3) || (bitmap.current_bitmap == 2 && bitmap.opponent_bitmap == 1) || (bitmap.current_bitmap == 3 && bitmap.opponent_bitmap == 2)) { // win
-                outcome = 'W';
-            }
-            if ((bitmap.current_bitmap == 1 && bitmap.opponent_bitmap == 2) || (bitmap.current_bitmap == 2 && bitmap.opponent_bitmap == 3) || (bitmap.current_bitmap == 3 && bitmap.opponent_bitmap == 1)) { // loss
-                outcome = 'L';
-            }
-            if (bitmap.current_bitmap == bitmap.opponent_bitmap) {  // draw
-                outcome = 'D';
-            }
-
-
-            if (outcome == 'W') {
+            if (outcome == 1) { // WIN
                     player_score++;
                     led_set (LED1, 1); // LIGHT ON
                     bitmap.current_bitmap = 7;
 
-                } else if (outcome == 'L') {
+                } else if (outcome == 2) {   // LOSS
                     bitmap.current_bitmap = 8;
 
-                } else if (outcome == 'D') {
+                } else if (outcome == 0) {   // DRAW
                     bitmap.current_bitmap = 9;
                 }
 
@@ -198,6 +200,7 @@ int main (void)
 
             in_outcome_phase = 0;
         }
+
 
 
 
