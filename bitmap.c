@@ -147,7 +147,27 @@ void display_column (uint8_t row_pattern, uint8_t current_column)
 
 
 
-Bitmap_Info display_bitmap(Bitmap_Info bitmap)
+void bitmap_refresh(void)
+{
+    /*Refresh LED matrix pins.  */
+    pio_config_set (LEDMAT_COL1_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_COL2_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_COL3_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_COL4_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_COL5_PIO, PIO_OUTPUT_HIGH);
+
+    pio_config_set (LEDMAT_ROW1_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_ROW2_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_ROW3_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_ROW4_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_ROW5_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_ROW6_PIO, PIO_OUTPUT_HIGH);
+    pio_config_set (LEDMAT_ROW7_PIO, PIO_OUTPUT_HIGH);
+}
+
+
+
+Player_Bitmap display_bitmap(Player_Bitmap bitmap)
 {
 
     // Code for Player Phase
