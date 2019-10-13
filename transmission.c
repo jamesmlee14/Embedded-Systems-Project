@@ -43,7 +43,7 @@ Player_Bitmap transmission(Player_Bitmap bitmap)
 
         if (bitmap.player == 2 && ir_uart_read_ready_p() && !recieved) {
             recieved = ir_uart_getc();              // 2recieving
-            if (recieved == 1 || recieved == 2 || recieved == 3) {
+            if (recieved == ROCK || recieved == PAPER || recieved == SCISSORS) {
                 bitmap.opponent_bitmap = recieved;
             } else {
                 recieved = 0;
@@ -57,7 +57,7 @@ Player_Bitmap transmission(Player_Bitmap bitmap)
 
         if (bitmap.player == 1 && ir_uart_read_ready_p() && !recieved) {
             recieved = ir_uart_getc();   // 1recieving
-            if (recieved == 1 || recieved == 2 || recieved == 3) {
+            if (recieved == ROCK || recieved == PAPER || recieved == SCISSORS) {
                 bitmap.opponent_bitmap = recieved;
             } else {
                 recieved = 0;

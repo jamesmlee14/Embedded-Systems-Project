@@ -10,17 +10,12 @@
 #include "pio.h"
 
 
-const uint8_t ROCK_INVERSE_BITMAP[] = {
-    0x00, 0x07, 0x07, 0x07, 0x00
-};
-const uint8_t PAPER_INVERSE_BITMAP[] = {
-    0x07, 0x07, 0x07, 0x07, 0x07
-};
-const uint8_t SCISSORS_INVERSE_BITMAP[] = {
-    0x05, 0x05, 0x02, 0x07, 0x07
-};
 
+#define N_ROWS 7
 
+/** Define Bitmaps for use in the display_bitmap function  */
+
+// Basic Bitmaps
 const uint8_t ROCK_BITMAP[] = {
     0x00, 0x70, 0x70, 0x70, 0x00
 };
@@ -31,7 +26,18 @@ const uint8_t SCISSORS_BITMAP[] = {
     0x50, 0x50, 0x20, 0x70, 0x70
 };
 
+// Inverse Bitmaps
+const uint8_t ROCK_INVERSE_BITMAP[] = {
+    0x00, 0x07, 0x07, 0x07, 0x00
+};
+const uint8_t PAPER_INVERSE_BITMAP[] = {
+    0x07, 0x07, 0x07, 0x07, 0x07
+};
+const uint8_t SCISSORS_INVERSE_BITMAP[] = {
+    0x05, 0x05, 0x02, 0x07, 0x07
+};
 
+// Comparison Bitmaps
 const uint8_t ROCK_ROCK_BITMAP[] = {
     0x00, 0x77, 0x77, 0x77, 0x00
 };
@@ -42,7 +48,6 @@ const uint8_t ROCK_SCISSORS_BITMAP[] = {
     0x05, 0x75, 0x72, 0x77, 0x07
 };
 
-
 const uint8_t PAPER_ROCK_BITMAP[] = {
     0x70, 0x77, 0x77, 0x77, 0x70
 };
@@ -52,7 +57,6 @@ const uint8_t PAPER_PAPER_BITMAP[] = {
 const uint8_t PAPER_SCISSORS_BITMAP[] = {
     0x75, 0x75, 0x72, 0x77, 0x77
 };
-
 
 const uint8_t SCISSORS_ROCK_BITMAP[] = {
     0x50, 0x57, 0x27, 0x77, 0x70
@@ -65,10 +69,10 @@ const uint8_t SCISSORS_SCISSORS_BITMAP[] = {
 };
 
 
+// Game Bitmaps
 const uint8_t ARROW_BITMAP[] = {
     0x04, 0x0E, 0x15, 0x04, 0x04
 };
-
 
 const uint8_t ZERO_BITMAP[] = {
     0x06, 0x09, 0x09, 0x09, 0x06
@@ -82,7 +86,6 @@ const uint8_t TWO_BITMAP[] = {
 const uint8_t THREE_BITMAP[] = {
     0x0E, 0x01, 0x06, 0x01, 0x0E
 };
-
 
 const uint8_t DRAW_BITMAP[] = {
     0x38, 0x24, 0x24, 0x24, 0x38
@@ -109,15 +112,18 @@ const pio_t cols[] = {
     LEDMAT_COL4_PIO, LEDMAT_COL5_PIO
 };
 
-
-void display_column (uint8_t row_pattern, uint8_t current_column)
+  /** Updates the current_column to display the correct pattern
+    @param  pattern the hex value of the current column
+            in the desired pattern
+    @param  current_column the column to update   */
+void display_column (uint8_t pattern, uint8_t current_column)
 {
 
     static uint8_t prev_column = 0;
     pio_output_high (cols[prev_column]);
 
-    for (uint8_t i = 0; i < 7; i++) { //7 times
-        if (row_pattern >> i & 1) {
+    for (uint8_t i = 0; i < N_ROWS; i++) {
+        if (pattern >> i & 1) {
             pio_output_low (rows[i]);
         } else {
             pio_output_high (rows[i]);
@@ -129,10 +135,10 @@ void display_column (uint8_t row_pattern, uint8_t current_column)
 }
 
 
-
-void bitmap_refresh(void)
+  /** Resets the bitmap to blank by setting all pins to HIGH*/
+void bitmap_reset(void)
 {
-    /*Refresh LED matrix pins.  */
+
     pio_config_set (LEDMAT_COL1_PIO, PIO_OUTPUT_HIGH);
     pio_config_set (LEDMAT_COL2_PIO, PIO_OUTPUT_HIGH);
     pio_config_set (LEDMAT_COL3_PIO, PIO_OUTPUT_HIGH);
@@ -149,81 +155,77 @@ void bitmap_refresh(void)
 }
 
 
+  /** Displays the desired bitmap using the display_column function
 
+    @param  bitmap the player's Player_Bitmap struct
+    @return the player's updated Player_Bitmap struct   */
 Player_Bitmap display_bitmap(Player_Bitmap bitmap)
 {
 
-    // Code for Player Phase
-    if (bitmap.current_bitmap > 3 && !bitmap.opponent_bitmap) {
+    // Player Phase
+    if (bitmap.current_bitmap > SCISSORS && !bitmap.opponent_bitmap) {
 
-        if (bitmap.current_bitmap == 4) {
+        if (bitmap.current_bitmap == ARROW) {
             display_column (ARROW_BITMAP[bitmap.current_column], bitmap.current_column);
-        } else if (bitmap.current_bitmap == 5) {
+        } else if (bitmap.current_bitmap == ONE) {
             display_column (ONE_BITMAP[bitmap.current_column], bitmap.current_column);
-        } else if (bitmap.current_bitmap == 6) {
+        } else if (bitmap.current_bitmap == TWO) {
             display_column (TWO_BITMAP[bitmap.current_column], bitmap.current_column);
         }
     }
 
-    // Code for Selection Phase
-
-
+    //Selection Phase
     if (bitmap.opponent_bitmap == 0) {
 
-        if (bitmap.current_bitmap == 1) {
+        if (bitmap.current_bitmap == ROCK) {
             display_column (ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
-        } else if (bitmap.current_bitmap == 2) {
+        } else if (bitmap.current_bitmap == PAPER) {
             display_column (PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
-        } else if (bitmap.current_bitmap == 3) {
+        } else if (bitmap.current_bitmap == SCISSORS) {
             display_column (SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
         }
 
 
     }
 
-
-
-    // Code for Outcome Phase
-
-
+    //Outcome Phase
     if (bitmap.opponent_bitmap != 0) {
 
-        // rock and rock
-        if (bitmap.current_bitmap == 1 && bitmap.opponent_bitmap == 1) {
+        if (bitmap.current_bitmap == ROCK && bitmap.opponent_bitmap == ROCK) {
             display_column (ROCK_ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
         }
-        // rock and paper
-        if (bitmap.current_bitmap == 1 && bitmap.opponent_bitmap == 2) {
+
+        if (bitmap.current_bitmap == ROCK && bitmap.opponent_bitmap == PAPER) {
             display_column (ROCK_PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
         }
         //rock and scissors
-        if (bitmap.current_bitmap == 1 && bitmap.opponent_bitmap == 3) {
+        if (bitmap.current_bitmap == ROCK && bitmap.opponent_bitmap == SCISSORS) {
             display_column (ROCK_SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
         }
 
         //paper and rock
-        if (bitmap.current_bitmap == 2 && bitmap.opponent_bitmap == 1) {
+        if (bitmap.current_bitmap == PAPER && bitmap.opponent_bitmap == ROCK) {
             display_column (PAPER_ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
         }
         //paper and paper
-        if (bitmap.current_bitmap == 2 && bitmap.opponent_bitmap == 2) {
+        if (bitmap.current_bitmap == PAPER && bitmap.opponent_bitmap == PAPER) {
             display_column (PAPER_PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
         }
         //paper and scissors
-        if (bitmap.current_bitmap == 2 && bitmap.opponent_bitmap == 3) {
+        if (bitmap.current_bitmap == PAPER && bitmap.opponent_bitmap == SCISSORS) {
             display_column (PAPER_SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
         }
 
         //scissors and rock
-        if (bitmap.current_bitmap == 3 && bitmap.opponent_bitmap == 1) {
+        if (bitmap.current_bitmap == SCISSORS && bitmap.opponent_bitmap == ROCK) {
             display_column (SCISSORS_ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
         }
         //scissors and paper
-        if (bitmap.current_bitmap == 3 && bitmap.opponent_bitmap == 2) {
+        if (bitmap.current_bitmap == SCISSORS && bitmap.opponent_bitmap == PAPER) {
             display_column (SCISSORS_PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
         }
         //scissors and scissors
-        if (bitmap.current_bitmap == 3 && bitmap.opponent_bitmap == 3) {
+        if (bitmap.current_bitmap == SCISSORS && bitmap.opponent_bitmap == SCISSORS) {
             display_column (SCISSORS_SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
         }
 
@@ -253,9 +255,6 @@ Player_Bitmap display_bitmap(Player_Bitmap bitmap)
 
 
     }
-
-
-
 
     bitmap.current_column++;
 

@@ -3,7 +3,7 @@
 * Authors : James Mitchum Lee (47069487), Matthew Hornsby ()
 * Date: 4 October 2019
 *
-* "Rock Paper Scissors"
+* "Rock Paper Scissors BO5"
 *
 * Match Flow:
 *
@@ -17,11 +17,8 @@
 *
 * 4. Outcome Phase
 *
-* Repeat 2-4 until Match decided.
-*
-*
-*
-*
+* Repeat 2-4 until Match decided:
+*   First player to win 3 games wins match
 */
 
 #include "system.h"
@@ -29,16 +26,9 @@
 #include "pacer.h"
 #include "timer.h"
 #include "led.h"
-
 #include "button.h"
-
-
-
 #include "navswitch.h"
-
 #include "ir_uart.h"
-
-
 
 #include "bitmap.h"
 #include "player_assignment.h"
@@ -46,22 +36,25 @@
 #include "transmission.h"
 #include "outcome.h"
 
+#define PACER_COUNT_RATE 500
+
 int main (void)
 {
+    //Initialisation
     navswitch_init ();
     system_init ();
-    pacer_init (500);
-    bitmap_refresh();
+    pacer_init (PACER_COUNT_RATE);
+    bitmap_reset();
     led_init ();
     ir_uart_init();
     button_init();
 
-    Player_Bitmap bitmap = {0, 4, 0, 0, 0, 0, 0};
+    Player_Bitmap bitmap = {0, ARROW, 0, 0, 0, 0, 0};
+
     uint8_t in_player_assignment = 1;
     uint8_t in_selection_phase = 0;
     uint8_t in_transmission_phase = 0;
     uint8_t in_outcome_phase = 0;
-
 
     while (1) {
 
@@ -75,10 +68,10 @@ int main (void)
             bitmap = player_assignment(bitmap);
 
             if (bitmap.player) {
-                bitmap_refresh();
-                bitmap.current_bitmap = 1;
+                bitmap_reset();
                 in_player_assignment = 0;
                 in_selection_phase = 1;
+                bitmap.current_bitmap = ROCK;
             }
         }
 
@@ -90,7 +83,7 @@ int main (void)
 
             if (bitmap.locked_in) {
 
-                bitmap_refresh();
+                bitmap_reset();
                 led_set (LED1, 0); // LIGHT OFF
                 in_selection_phase = 0;
                 in_transmission_phase = 1;

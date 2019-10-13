@@ -9,11 +9,25 @@
 #ifndef BITMAP_H
 #define BITMAP_H
 
+#define ROCK 1
+#define PAPER 2
+#define SCISSORS 3
+#define ARROW 4
+#define WIN 7
+#define LOSS 8
+#define DRAW 9
+#define ZERO 10
+#define ONE 11
+#define TWO 12
+#define THREE 13
+
 #include "system.h"
 #include "navswitch.h"
 
+/* Player's Bitmap information structure type  */
 typedef struct player_bitmap_s Player_Bitmap;
 
+/* Player's Bitmap information structure  */
 struct player_bitmap_s {
     uint8_t current_column;
     uint8_t current_bitmap;
@@ -24,13 +38,19 @@ struct player_bitmap_s {
     uint8_t opponent_score;
 };
 
-/** sets led matrix to all high  */
-void bitmap_refresh(void);
+  /** Resets the bitmap to blank by setting all pins to HIGH*/
+void bitmap_reset(void);
 
-/** displays columns  */
-void display_column (uint8_t row_pattern, uint8_t current_column);
 
-/** displays bitmap by calling display_column  */
+  /** Updates the current_column to display the correct pattern
+    @param  pattern the hex value of the current column
+            in the desired pattern
+    @param  current_column the column to update   */
+void display_column (uint8_t pattern, uint8_t current_column);
+
+  /** Displays the desired bitmap using the display_column function
+    @param  bitmap the player's Player_Bitmap struct
+    @return the player's updated Player_Bitmap struct   */
 Player_Bitmap display_bitmap(Player_Bitmap bitmap);
 
 

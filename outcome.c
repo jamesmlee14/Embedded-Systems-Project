@@ -10,7 +10,8 @@
 #include "led.h"
 #include "pacer.h"
 
-
+#define HALF_SECOND 250
+#define FIVE_SECONDS 2500
 
 
  /** Return outcome of Rock Paper Scissors Game.
@@ -32,11 +33,11 @@ uint8_t get_result(uint8_t current, uint8_t opponent)
     @param  counter the current value of the loop counter*/
 void flash_led(int counter)
 {
-    if ((counter % 250) == 0) {
-        if (((counter / 250) % 2) == 0) {
+    if ((counter % HALF_SECOND) == 0) {
+        if (((counter / HALF_SECOND) % 2) == 0) {
             led_set (LED1, 0); // LIGHT OFF
         }
-        if (((counter / 250) % 2) == 1) {
+        if (((counter / HALF_SECOND) % 2) == 1) {
             led_set (LED1, 1); // LIGHT ON
         }
 
@@ -65,7 +66,7 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
 {
 
     int counter = 0;
-    while (counter < 2500) {
+    while (counter < FIVE_SECONDS) {
         pacer_wait ();
         counter++;
         bitmap = display_bitmap(bitmap);
@@ -75,20 +76,20 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
 
     if (outcome == 1) {
         bitmap.player_score++;
-        bitmap.current_bitmap = 7; // WIN
+        bitmap.current_bitmap = WIN;
 
     } else if (outcome == 2) {
         bitmap.opponent_score++;
-        bitmap.current_bitmap = 8; // LOSS
+        bitmap.current_bitmap = LOSS;
 
     } else if (outcome == 0) {
-        bitmap.current_bitmap = 9; // DRAW
+        bitmap.current_bitmap = DRAW;
     }
 
     counter = 0;
-    bitmap_refresh();
+    bitmap_reset();
 
-    while (counter < 2500) {
+    while (counter < FIVE_SECONDS) {
 
         pacer_wait ();
         counter++;
@@ -101,19 +102,19 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
     }
 
     if (bitmap.player_score == 0) {
-        bitmap.current_bitmap = 10; //ZERO
+        bitmap.current_bitmap = ZERO;
     } else if (bitmap.player_score == 1) {
-        bitmap.current_bitmap = 11; //ONE
+        bitmap.current_bitmap = ONE;
     } else if (bitmap.player_score == 2) {
-        bitmap.current_bitmap = 12; //TWO
+        bitmap.current_bitmap = TWO;
     } else if (bitmap.player_score == 3) {
-        bitmap.current_bitmap = 13; //THREE
+        bitmap.current_bitmap = THREE;
     }
 
     counter = 0;
-    bitmap_refresh();
+    bitmap_reset();
     led_set (LED1, 0); // LIGHT OFF
-    while (counter < 2500) {
+    while (counter < FIVE_SECONDS) {
 
         pacer_wait ();
         counter++;
@@ -122,14 +123,14 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
     }
     if (bitmap.player_score == 3 || bitmap.opponent_score == 3) {
         if (bitmap.player_score == 3) {
-            bitmap.current_bitmap = 7;
+            bitmap.current_bitmap = WIN;
         } else {
-            bitmap.current_bitmap = 8;
+            bitmap.current_bitmap = LOSS;
         }
 
         counter = 0;
-        bitmap_refresh();
-        while (1) {  //FOREVER
+        bitmap_reset();
+        while (1) {
 
             counter++;
             pacer_wait ();
@@ -144,10 +145,10 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
         }
     }
 
-    bitmap_refresh();
+    bitmap_reset();
     led_set (LED1, 0); // LIGHT OFF
     bitmap.current_column = 0;
-    bitmap.current_bitmap = 1;
+    bitmap.current_bitmap = ROCK;
     bitmap.opponent_bitmap = 0;
     bitmap.locked_in = 0;
     return bitmap;

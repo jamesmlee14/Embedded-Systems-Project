@@ -36,14 +36,14 @@ Player_Bitmap player_assignment (Player_Bitmap bitmap)
 
         if (button_push_event_p (BUTTON1)) {
             bitmap.player = 1;
-            bitmap.current_bitmap = 5;
+            bitmap.current_bitmap = ONE;
             ir_uart_putc(2);  //sending
         }
         if (ir_uart_read_ready_p()) {
             char set_player2 = ir_uart_getc();
             if (set_player2 == 2) {
                 bitmap.player = set_player2;
-                bitmap.current_bitmap = 6;
+                bitmap.current_bitmap = TWO;
             }
         }
     }
@@ -54,7 +54,7 @@ Player_Bitmap player_assignment (Player_Bitmap bitmap)
 
 
         uint16_t counter = 0;
-        bitmap_refresh();
+        bitmap_reset();
         while (counter < 2500) { //wait 5sec
             pacer_wait ();
             counter++;

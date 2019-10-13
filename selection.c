@@ -29,15 +29,15 @@ Player_Bitmap selection(Player_Bitmap bitmap)
 
         if (navswitch_push_event_p (NAVSWITCH_EAST)) {
             bitmap.current_bitmap++;
-            if (bitmap.current_bitmap > 3) {
-                bitmap.current_bitmap = 1;
+            if (bitmap.current_bitmap > SCISSORS) {
+                bitmap.current_bitmap = ROCK;
             }
         }
 
         if (navswitch_push_event_p (NAVSWITCH_WEST)) {
             bitmap.current_bitmap--;
-            if (bitmap.current_bitmap < 1) {
-                bitmap.current_bitmap = 3;
+            if (bitmap.current_bitmap < ROCK) {
+                bitmap.current_bitmap = SCISSORS;
             }
         }
 
