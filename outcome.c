@@ -39,7 +39,6 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
 
     if (outcome == 1) { // WIN
         bitmap.player_score++;
-        led_set (LED1, 1); // LIGHT ON
         bitmap.current_bitmap = 7;
 
     } else if (outcome == 2) {   // LOSS
@@ -58,6 +57,19 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
         pacer_wait ();
         counter++;
         bitmap = display_bitmap(bitmap);
+        if (outcome == 1) {
+            if ((counter % 250) == 0) {
+                if (((counter / 250) % 2) == 0) {
+                    led_set (LED1, 0); // LIGHT OFF
+                }
+                if (((counter / 250) % 2) == 1) {
+                    led_set (LED1, 1); // LIGHT ON
+                }
+
+
+            }
+
+        }
 
     }
 
@@ -82,16 +94,33 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
 
     }
     if (bitmap.player_score == 3 || bitmap.opponent_score == 3) {
-        bitmap.current_bitmap = 7;
+        if (bitmap.player_score == 3) {
+            bitmap.current_bitmap = 7;
+        } else {
+            bitmap.current_bitmap = 8;
+        }
 
         counter = 1;
         bitmap_refresh();
-        led_set (LED1, 0); // LIGHT OFF
-        while (counter) {     //display game outcome forever
+        while (counter) {     //display flashing game outcome forever
 
-            pacer_wait ();
             counter++;
+            pacer_wait ();
             bitmap = display_bitmap(bitmap);
+
+            if (bitmap.player_score == 3) {
+                if ((counter % 250) == 0) {
+                    if (((counter / 250) % 2) == 0) {
+                        led_set (LED1, 0); // LIGHT OFF
+                    }
+                    if (((counter / 250) % 2) == 1) {
+                        led_set (LED1, 1); // LIGHT ON
+                    }
+
+
+                }
+
+            }
 
         }
     }

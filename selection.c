@@ -14,7 +14,9 @@
 
 Player_Bitmap selection(Player_Bitmap bitmap)
 {
-    led_set (LED1, 1); // LIGHT ON
+    if (bitmap.player == 1) {
+        led_set (LED1, 1); // LIGHT ON
+    }
 
     if (!bitmap.locked_in) {
 

@@ -104,7 +104,6 @@ int main (void)
 
             bitmap = transmission(bitmap);
 
-            if (bitmap.opponent_bitmap)
             in_transmission_phase = 0;
             in_outcome_phase = 1;
 
