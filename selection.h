@@ -12,6 +12,7 @@
 
 #include "system.h"
 #include "bitmap.h"
+#include "button.h"
 
   /** Executes game.c Selection Phase:
 

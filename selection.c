@@ -7,6 +7,7 @@
 
 #include "bitmap.h"
 #include "led.h"
+#include "button.h"
 
   /** Executes game.c Selection Phase:
 
@@ -41,7 +42,9 @@ Player_Bitmap selection(Player_Bitmap bitmap)
             }
         }
 
-        if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+         button_update ();
+
+        if (button_push_event_p (BUTTON1)) {
             bitmap.locked_in = 1;
         }
 

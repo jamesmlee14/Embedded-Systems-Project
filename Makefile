@@ -58,7 +58,7 @@ bitmap.o: bitmap.c bitmap.h ../../drivers/navswitch.h ../../drivers/avr/system.h
 player_assignment.o: player_assignment.c player_assignment.h bitmap.h ../../drivers/avr/system.h ../../drivers/led.h ../../drivers/button.h ../../drivers/avr/ir_uart.h ../../utils/pacer.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-selection.o: selection.c selection.h bitmap.h ../../drivers/led.h
+selection.o: selection.c selection.h bitmap.h ../../drivers/led.h ../../drivers/button.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 transmission.o: transmission.c transmission.h bitmap.h ../../drivers/avr/ir_uart.h ../../drivers/led.h
