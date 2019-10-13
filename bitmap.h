@@ -1,12 +1,10 @@
-/*
- * bitmaps.h
- *
- * Copyright 2019 James Mitchum Lee <jml184@cs18254kq>
- *
- *
- *
- */
+/** @file   bitmap.h
+    @author James Mitchum Lee
+    @date   10 October 2019
+    @brief  Rock Paper Scissors BO5 Player Assignment Phase
 
+    Bitmap functionality for game.c
+*/
 
 #ifndef BITMAP_H
 #define BITMAP_H

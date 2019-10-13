@@ -1,7 +1,7 @@
 # File:   Makefile
-# Authors: M. P. Hayes, UCECE, James Lee (47069483)
-# Date:   12 Sep 2010, October 2019
-# Descr:  Makefile for game
+# Authors: James Lee (47069483)
+# Date:   4 October 2019
+# Descr:  Makefile for Rock Paper Scissors BO5
 
 # Definitions.
 CC = avr-gcc

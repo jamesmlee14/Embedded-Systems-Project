@@ -1,13 +1,15 @@
 /*
 * ENCE 260 Embedded Systems Project
-* Authors : James Lee (47069487), Matthew Hornsby ()
-* Date: October 2019
+* Authors : James Mitchum Lee (47069487), Matthew Hornsby ()
+* Date: 4 October 2019
 *
 * "Rock Paper Scissors"
 *
-* Flow:
+* Match Flow:
 *
 * 1. Player Assignment
+*
+* Game:
 *
 * 2. Selection Phase
 *
@@ -15,9 +17,9 @@
 *
 * 4. Outcome Phase
 *
-* Repeat
+* Repeat 2-4 until Match decided.
 *
-* REPEAT
+*
 *
 *
 */
@@ -59,9 +61,6 @@ int main (void)
     uint8_t in_selection_phase = 0;
     uint8_t in_transmission_phase = 0;
     uint8_t in_outcome_phase = 0;
-
-
-    led_set (LED1, 0); // LIGHT OFF
 
 
     while (1) {
@@ -106,7 +105,6 @@ int main (void)
 
             in_transmission_phase = 0;
             in_outcome_phase = 1;
-
         }
 
         // OUTCOME
@@ -118,23 +116,8 @@ int main (void)
             in_transmission_phase = 0;
             in_outcome_phase = 0;
             in_outcome_phase = 0;
-
         }
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
 }
 
 

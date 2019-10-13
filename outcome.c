@@ -1,11 +1,8 @@
-/*
- * outcome.c
- *
- * Copyright 2019 James Mitchum Lee <jml184@cs18254kq>
- *
- *
- *
- */
+/** @file   outcome.c
+    @author James Mitchum Lee
+    @date   12 October 2019
+    @brief  Rock Paper Scissors BO5 Outcome Phase
+*/
 
 
 #include "outcome.h"
@@ -15,24 +12,24 @@
 
 
 
-/*
-* Takes two integers current and opponent, corresponding to
-* a player's locked in selection (Rock, Paper, or Scissors)
-* and their opponent's one.
 
-* Returns an integer result representing the game's outcome,
-* with 0 representing a Draw, 1 a Win, and 2 a Loss
-*/
-int get_result(int current, int opponent)
+ /** Return outcome of Rock Paper Scissors Game.
+    @param  current the players selection, 1 if Rock, 2 if Paper,
+    3 if scissors.
+    @param opponent the opponents selection, 1 if Rock, 2 if Paper,
+    3 if scissors.
+    @return game result 1 if Win, 2 if Loss, 0 if Draw   */
+uint8_t get_result(uint8_t current, uint8_t opponent)
 {
     current++;
     opponent++;
-    int result = (current - opponent + 3) % 3;
-    return result;
+    uint8_t game_result = (current - opponent + 3) % 3;
+    return game_result;
 }
 
 
-
+  /** Flashes the LED periodically
+    @param  counter the current value of the loop counter*/
 void flash_led(int counter)
 {
     if ((counter % 250) == 0) {
@@ -48,31 +45,33 @@ void flash_led(int counter)
 
 }
 
-/*
-* Executes the outcome phase:
-*
-* 1. Displays the players and their opponents' selections for 5 seconds
-*
-* 2. Displays a letter representing the players outcome in the game
-*       Flashes the LED if the player won a game
-*
-* 3. Displays the player's current score accross the match for 5 seconds
-*
-* 4. If the match is decided, Displays the players outcome in the match
-*       Flashes the LED if the player won the match
-*       Continues until board is reset.
-*/
+
+  /** Executes game.c Outcome Phase:
+
+    1. Displays the players and their opponents selections for 5 seconds
+
+    2. Displays a letter representing the players outcome in the game
+        -Flashes the LED if the player won a game
+
+    3. Displays the player's current score accross the match for 5 seconds
+
+    4. If the match is decided, Displays the players outcome
+        -Flashes the LED if the player won the match
+        -Continues until board is reset.
+
+    @param  bitmap the player's Player_Bitmap struct
+    @return the player's updated Player_Bitmap struct   */
 Player_Bitmap outcome(Player_Bitmap bitmap)
 {
 
-    uint16_t counter = 0;
+    int counter = 0;
     while (counter < 2500) {
         pacer_wait ();
         counter++;
         bitmap = display_bitmap(bitmap);
     }
 
-    int outcome = get_result(bitmap.current_bitmap, bitmap.opponent_bitmap);
+    uint8_t outcome = get_result(bitmap.current_bitmap, bitmap.opponent_bitmap);
 
     if (outcome == 1) {
         bitmap.player_score++;
@@ -128,9 +127,9 @@ Player_Bitmap outcome(Player_Bitmap bitmap)
             bitmap.current_bitmap = 8;
         }
 
-        counter = 1;
+        counter = 0;
         bitmap_refresh();
-        while (counter) {  //FOREVER
+        while (1) {  //FOREVER
 
             counter++;
             pacer_wait ();

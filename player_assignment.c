@@ -1,9 +1,8 @@
-/*
- * player_phase.c
- *
- * Copyright 2019 James Mitchum Lee <jml184@cs18254kq>
- *
- */
+/** @file   player_assignment.c
+    @author James Mitchum Lee
+    @date   11 October 2019
+    @brief  Rock Paper Scissors BO5 Player Assignment Phase
+*/
 
 
 #include "system.h"
@@ -15,7 +14,17 @@
 
 #include "player_assignment.h"
 
+  /** Executes game.c Player Assignment Phase:
 
+    1. Displays an arrow instructing the player to press the button
+
+    2. Whichever player presses the button first becomes Player 1, and
+       Informs the second board it is Player 2 using IR communication
+
+    3. Displays the player's assignment, either 1 or 2.
+
+    @param  bitmap the player's Player_Bitmap struct
+    @return the player's updated Player_Bitmap struct   */
 Player_Bitmap player_assignment (Player_Bitmap bitmap)
 {
 
