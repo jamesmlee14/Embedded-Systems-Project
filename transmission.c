@@ -2,6 +2,8 @@
     @author James Mitchum Lee
     @date   12 October 2019
     @brief  Rock Paper Scissors BO5 Transmission Phase
+
+    The Transmission Phase for game.c "Rock Paper Scissors Best of 5"
 */
 
 #include "system.h"
@@ -11,7 +13,7 @@
 #include "pacer.h"
 
 
-  /** Executes game.c Transmission Phase:
+/** Executes game.c Transmission Phase:
 
     1. Player 1 sends their selection
 
@@ -22,7 +24,8 @@
     4. Player 1 recieves and stores player 2's selection.
 
     @param  bitmap the player's Player_Bitmap struct
-    @return the player's updated Player_Bitmap struct   */
+    @return the player's updated Player_Bitmap struct
+*/
 Player_Bitmap transmission(Player_Bitmap bitmap)
 {
     uint8_t sent = 0;

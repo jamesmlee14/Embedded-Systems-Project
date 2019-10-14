@@ -51,7 +51,6 @@ led.o: ../../drivers/led.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ..
 button.o: ../../drivers/button.c ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/button.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-
 bitmap.o: bitmap.c bitmap.h ../../drivers/navswitch.h ../../drivers/avr/system.h ../../drivers/avr/pio.h
 	$(CC) -c $(CFLAGS) $< -o $@
 

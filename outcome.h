@@ -3,7 +3,7 @@
     @date   12 October 2019
     @brief  Rock Paper Scissors BO5 Outcome Phase
 
-    Outcome Phase for game.c
+    The Outcome Phase for game.c "Rock Paper Scissors Best of 5"
 */
 
 
@@ -15,21 +15,23 @@
 #include "led.h"
 
 
- /** Return outcome of Rock Paper Scissors Game.
+/** Return outcome of Rock Paper Scissors Game.
     @param  current the players selection, 1 if Rock, 2 if Paper,
     3 if scissors.
     @param opponent the opponents selection, 1 if Rock, 2 if Paper,
     3 if scissors.
-    @return game result 1 if Win, 2 if Loss, 0 if Draw   */
+    @return game result 1 if Win, 2 if Loss, 0 if Draw
+*/
 uint8_t get_result(uint8_t current, uint8_t opponent);
 
 
-  /** Flashes the LED periodically
-    @param  counter the current value of the loop counter*/
+/** Flashes the LED periodically
+    @param  counter the current value of the loop counter
+*/
 void flash_led(int counter);
 
 
-  /** Executes game.c Outcome Phase:
+/** Executes game.c Outcome Phase:
 
     1. Displays the players and their opponents selections for 5 seconds
 
@@ -43,12 +45,9 @@ void flash_led(int counter);
         -Continues until board is reset.
 
     @param  bitmap the player's Player_Bitmap struct
-    @return the player's updated Player_Bitmap struct   */
+    @return the player's updated Player_Bitmap struct
+*/
 Player_Bitmap outcome(Player_Bitmap bitmap);
-
-
-
-
 #endif
 
 
