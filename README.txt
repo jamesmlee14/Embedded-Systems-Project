@@ -62,17 +62,19 @@ Note: This game is designed to be played on two University of Canterbury FunKit 
 
 Installation:
 
-1. Clone the repositiory for the game somewhere to your local machine.
+    1. Clone the repositiory for the game somewhere to your local machine.
 
-2. In the file browser, navigate to the assignment/group219 folder.
+    2. In the file browser, navigate to the assignment/group219 folder.
 
-3. Open the terminal in the group 219 folder.
+    3. Open the terminal in the group 219 folder.
 
-4. Ensure both ucfunkits are plugged into the computer.
+    4. Ensure both ucfunkits are plugged into the computer.
 
-5. Enter the command 'make program' (no quotes). Reset the Microcontrollers, using the button labelled 'S2' if there are problems.
+    5. Enter the command 'make program' (no quotes). Reset the Microcontrollers, using the button labelled 'S2' if there are problems.
 
-6. When the command has finished executing, repeat the command to start the second Microcontroller.
+    6. When the command has finished executing, repeat the command to start the second Microcontroller.
+
+Playing the game
 
 
      -  Set the two boards down approximately 2cm away from one another, with the IR Reciever (Labelled U1) of each board aligned
