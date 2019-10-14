@@ -1,20 +1,20 @@
 ================================================================================================================================
 
-                +@@@@@@@@@+                                                        @@@@@@@@,     @@@@@@@@@@       
-              *@&        .(@@*                       #@@@@@&                    @@.      (@.  @@,         @@     
-              /@.            @@   @@@@@             %@     &@                   @%       &@   @(          /@.    
-              /@.            *@@@@(,,,(@@@ &@&@@@@(&@(     (&@/     @@@@%%%%%@@@@/     (@@(   @,          &@.    
-              /@.     @%     *@,         (@%                 @&   &@(          @,        @&  .@.     %&@@@%      
-              /@.           /@            *         @        @%  %@.            #       .@&  ,@           &@*    
-              /@.            ,     @@@           @@@@(     &@.   &@     ,@@     /#     @@,   ,@,           @@    
-              /@.     @&.                 .@         (     &@    &@     /@@     *#     @&      @@@@@@%     %@    
-              /@.                   ,,...(@  %@@     (     (%@#  &@      @.     %#     @&    &@,  .((      %@    
-              /@.            ,%     /#      @          &       %@  .@@           *@#     @&    @#           @  
-              /@#          (@@%@&.       %@%       %@@@.     @@    #@@       *@@@@    ,@&    %@(        %@@     
-                &@@@@@@@@@&/    ,&@@@@@@&/ (@@@@@@@/  ,@@@@@@,       ,@@@@@@@%   (@@@@@.       (@@@@@@@&*       
+                +@@@@@@@@@+                                                        @@@@@@@@,     @@@@@@@@@@
+              *@&        .(@@*                       #@@@@@&                    @@.      (@.  @@,         @@
+              /@.            @@   @@@@@             %@     &@                   @%       &@   @(          /@.
+              /@.            *@@@@(,,,(@@@ &@&@@@@(&@(     (&@/     @@@@%%%%%@@@@/     (@@(   @,          &@.
+              /@.     @%     *@,         (@%                 @&   &@(          @,        @&  .@.     %&@@@%
+              /@.           /@            *         @        @%  %@.            #       .@&  ,@           &@*
+              /@.            ,     @@@           @@@@(     &@.   &@     ,@@     /#     @@,   ,@,           @@
+              /@.     @&.                 .@         (     &@    &@     /@@     *#     @&      @@@@@@%     %@
+              /@.                   ,,...(@  %@@     (     (%@#  &@      @.     %#     @&    &@,  .((      %@
+              /@.            ,%     /#      @          &       %@  .@@           *@#     @&    @#           @
+              /@#          (@@%@&.       %@%       %@@@.     @@    #@@       *@@@@    ,@&    %@(        %@@
+                &@@@@@@@@@&/    ,&@@@@@@&/ (@@@@@@@/  ,@@@@@@,       ,@@@@@@@%   (@@@@@.       (@@@@@@@&*
 
 
-                                             A Game by Jimmy Lee and Matthew Hornsby                               
+                                             A Game by Jimmy Lee and Matthew Hornsby
                                                        (47069483)       (48081532)
 
                                                                 16/10/2019
@@ -22,61 +22,82 @@
 ================================================================================================================================
 
         Best of 5 is a game created for the University of Canterbury fun kit 4 (UCfk4) platform. It is a recreation
-        of the popular game; Paper, Scissors, Rock. The game has many rules, but the most common is Best of 5, or the
-	first person to 3 wins is the overall winner.
+        of the popular game; Rock, Paper, Scissors, in which the players will compete until a player has won 3 games.
 
 ================================================================================================================================
 
-                     The Board                                                Action Choices
+                 The Board                                                Action Choices
 
-		   X X X | X X X                                                  O O O            O   O
-		   X X X | X X X                                O O O             O O O            O   O
-		   X X X | X X X                                O O O             O O O              O
-		   X X X | X X X                                O O O             O O O            O O O
-		   X X X | X X X                                                  O O O            O O O
-                     ^   ^   ^                                    ^                 ^                ^
-                     |   |   |                                    |                 |                |
-                     |   |   |                                   Rock             Paper           Scissors
-        Your Play Area   |   Opponents Play Area
-                         |
-                      Divider
+               X X X | X X X                                                  O O O            O   O
+               X X X | X X X                                O O O             O O O            O   O
+               X X X | X X X                                O O O             O O O              O
+               X X X | X X X                                O O O             O O O            O O O
+               X X X | X X X                                                  O O O            O O O
+                 ^   ^   ^                                    ^                 ^                ^
+                 |   |   |                                    |                 |                |
+                 |   |   |                                   Rock             Paper           Scissors
+    Your Play Area   |   Opponents Play Area
+                     |
+                   Divider
+
 
 
 ================================================================================================================================
 
-                                                                                            @@@@*                          
-      @@@@@@,  @@@@@@*                                  @@@@                              @&    @%                        
-     @&    ,@ @%    .@                                @@.  *@/                            @*    @%                        
-     @&    ,@ @%    .@.@@@@@@@@@@@@@@@%@@@@@%@@@@@/  #@*    @@%&@@@@@@@@.     ,@@@@@@@@@@&@*    @&@@@@@@@@@&@@@@@@%@@@@@& 
+                                                                                            @@@@*
+      @@@@@@,  @@@@@@*                                  @@@@                              @&    @%
+     @&    ,@ @%    .@                                @@.  *@/                            @*    @%
+     @&    ,@ @%    .@.@@@@@@@@@@@@@@@%@@@@@%@@@@@/  #@*    @@%&@@@@@@@@.     ,@@@@@@@@@@&@*    @&@@@@@@@@@&@@@@@@%@@@@@&
      @&    ,@@@%    .@&         @     @     @    .@  @       .@         &@.   @          .@*    @@         /,    #@     @.
-     @&             .&           ,    (     (    &@  @*      (           #@   @.          **    @@,         &     .    #@ 
-     @&             .*    &@*    %               @.   @.    @%    .@%     @   @,    %@     *    @@% @@@     %%        /@. 
-     @&    ,@@@%    ./    #@,    &%             &@    @.    @%     @#    .@   @,    %@     *    @,          %@        @&  
-     @&    ,@ @%    .@           @@      *     ,@,    @,      .          &@   @,          %/    %     @     #@@      @@   
-     @&    ,@ @%    .@@.       *@(@%     @     @@     @@      @#       .@@    @,         &@@    %           *@@(    ,@    
-      &@@@@@   @@@@@@. &@@@@@@@%   &@@@@@(@@@@@%        @@@@@@#(@@@@@@@&      @,    %@@@@,  @@@@@@@@@@@@@@@@@#@     @#    
-                                                                              @,    %&                       @*    &@     
-                                                                              ,@@@@@@                        *@@@@@@      
+     @&             .&           ,    (     (    &@  @*      (           #@   @.          **    @@,         &     .    #@
+     @&             .*    &@*    %               @.   @.    @%    .@%     @   @,    %@     *    @@% @@@     %%        /@.
+     @&    ,@@@%    ./    #@,    &%             &@    @.    @%     @#    .@   @,    %@     *    @,          %@        @&
+     @&    ,@ @%    .@           @@      *     ,@,    @,      .          &@   @,          %/    %     @     #@@      @@
+     @&    ,@ @%    .@@.       *@(@%     @     @@     @@      @#       .@@    @,         &@@    %           *@@(    ,@
+      &@@@@@   @@@@@@. &@@@@@@@%   &@@@@@(@@@@@%        @@@@@@#(@@@@@@@&      @,    %@@@@,  @@@@@@@@@@@@@@@@@#@     @#
+                                                                              @,    %&                       @*    &@
+                                                                              ,@@@@@@                        *@@@@@@
 
-	
-     -	Play starts when one of the players presses the button next to the LED matrix display. The first to press this
-	button is designated as player 1 and the other as player 2. This choice is shown on the players respective UCfk4
-	boards with the corresponding number.
+Note: This game is designed to be played on two University of Canterbury FunKit Microcontrollers.
 
-     -	In order to make a selection of the action you wish to play, the pressing the joystick up or down cycles through 
-	the actions on the LED matrix display. Pressing the button in locks the selection. Player 1 makes their choice
-	first, preferably hiding it from player 2's view. The screen will go blank and then player 2 can make their choice 
-	in the same way.
+Installation:
 
-     -	After the choices are made, the choices are sent to the other boards screen and you can see your action and your
-	opponents on either side of the screen. The board will compare the actions and display a W, D, or L for a win,
-	draw, or loss respectively. 1 point is awarded for a win, and none are given for a draw or a loss. This is displayed
-	on the board with numbers on the LED matrix. After a short pause, the board returns to the input stage for another
-	round to be played.
+1. Clone the repositiory for the game somewhere to your local machine.
 
-     -	The game continues until one player gains three points. This is the required score to win the majority of five games. 
-	Once this has been reached, the boards will display the winner with a W on their board and a L on the losers board. 
+2. In the file browser, navigate to the assignment/group219 folder.
 
-     -	In order to play another game, the reset switch on the boards is pressed once the final winner / loser is displayed.
+3. Open the terminal in the group 219 folder.
+
+4. Ensure both ucfunkits are plugged into the computer.
+
+5. Enter the command 'make program' (no quotes). Reset the Microcontrollers, using the button labelled 'S2' if there are problems.
+
+6. When the command has finished executing, repeat the command to start the second Microcontroller.
+
+
+     -  Set the two boards down approximately 2cm away from one another, with the IR Reciever (Labelled U1) of each board aligned
+        with the opposing board's IR Transmitter (Labelled IR1)
+
+     -  Play starts when one of the players presses the button next to the LED matrix display, indicated by the large arrow.
+        The first to press this button is designated as Player 1, and the other as Player 2.
+
+     -  After each player is informed of their player number, the selection phase will begin.
+
+     -  Player 2 must avert their eyes while Player 1 makes their selection first.
+
+     -  Move the Navigational Switch up and down to toggle your selection between Rock Paper and Scissors.
+        To lock in your selection, at any time press the white button located above the board.
+
+     -  Once Player 1 has locked in a selection, it will disappear, allowing for Player 2 to open their eyes and make their selection.
+
+
+     -  After both selections are made, all will be revealed, with both screens displaying both player's selections.
+
+     -  After
+
+     -  The game continues until one player gains three points. This is the required score to win the majority of five games.
+    Once this has been reached, the boards will display the winner with a W on their board and a L on the losers board.
+
+     -  In order to play another game, the reset switch on the boards is pressed once the final winner / loser is displayed.
 
 ================================================================================================================================
