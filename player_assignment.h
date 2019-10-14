@@ -1,4 +1,4 @@
-/** @file   player_assignment.c
+/** @file   player_assignment.h
     @author James Mitchum Lee
     @date   11 October 2019
     @brief  Rock Paper Scissors BO5 Player Assignment Phase
