@@ -160,9 +160,7 @@ Player_Bitmap display_bitmap(Player_Bitmap bitmap)
         } else if (bitmap.current_bitmap == TWO) {
             display_column (TWO_BITMAP[bitmap.current_column], bitmap.current_column);
         }
-    }
-
-    if (bitmap.in_selection_phase) {
+    } else if (bitmap.in_selection_phase) {
 
         if (bitmap.current_bitmap == ROCK) {
             display_column (ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
@@ -172,9 +170,7 @@ Player_Bitmap display_bitmap(Player_Bitmap bitmap)
             display_column (SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
         }
 
-    }
-
-    if (bitmap.in_outcome_phase) {
+    } else if (bitmap.in_outcome_phase) {
 
         if (bitmap.current_bitmap == ROCK) {
             if (bitmap.opponent_bitmap == ROCK) {
@@ -208,10 +204,7 @@ Player_Bitmap display_bitmap(Player_Bitmap bitmap)
                 display_column (LOSS_BITMAP[bitmap.current_column], bitmap.current_column);
             } else if (bitmap.current_bitmap == DRAW) {
                 display_column (DRAW_BITMAP[bitmap.current_column], bitmap.current_column);
-            }
-
-
-            else if (bitmap.current_bitmap == ZERO) {
+            } else if (bitmap.current_bitmap == ZERO) {
                 display_column (ZERO_BITMAP[bitmap.current_column], bitmap.current_column);
             } else if (bitmap.current_bitmap == ONE) {
                 display_column (ONE_BITMAP[bitmap.current_column], bitmap.current_column);
