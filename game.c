@@ -50,6 +50,7 @@ int main (void)
     Player_Bitmap bitmap = {0, ARROW, 0, 0, 0, 0, 0, 1, 0, 0, 0};
 
     while (1) {
+
         pacer_wait();
         navswitch_update();
 
