@@ -112,10 +112,10 @@ const pio_t cols[] = {
     LEDMAT_COL4_PIO, LEDMAT_COL5_PIO
 };
 
-  /** Updates the current_column to display the correct pattern
-    @param  pattern the hex value of the current column
-            in the desired pattern
-    @param  current_column the column to update   */
+/** Updates the current_column to display the correct pattern
+  @param  pattern the hex value of the current column
+          in the desired pattern
+  @param  current_column the column to update   */
 void display_column (uint8_t pattern, uint8_t current_column)
 {
 
@@ -135,7 +135,7 @@ void display_column (uint8_t pattern, uint8_t current_column)
 }
 
 
-  /** Resets the bitmap to blank by setting all pins to HIGH*/
+/** Resets the bitmap to blank by setting all pins to HIGH*/
 void bitmap_reset(void)
 {
 
@@ -155,10 +155,10 @@ void bitmap_reset(void)
 }
 
 
-  /** Displays the desired bitmap using the display_column function
+/** Displays the desired bitmap using the display_column function
 
-    @param  bitmap the player's Player_Bitmap struct
-    @return the player's updated Player_Bitmap struct   */
+  @param  bitmap the player's Player_Bitmap struct
+  @return the player's updated Player_Bitmap struct   */
 Player_Bitmap display_bitmap(Player_Bitmap bitmap)
 {
 
@@ -174,7 +174,7 @@ Player_Bitmap display_bitmap(Player_Bitmap bitmap)
         }
     }
 
-    //Selection Phase
+    // Selection Phase
     if (bitmap.opponent_bitmap == 0) {
 
         if (bitmap.current_bitmap == ROCK) {
@@ -188,48 +188,40 @@ Player_Bitmap display_bitmap(Player_Bitmap bitmap)
 
     }
 
-    //Outcome Phase
+    // Outcome Phase
     if (bitmap.opponent_bitmap != 0) {
 
-        if (bitmap.current_bitmap == ROCK && bitmap.opponent_bitmap == ROCK) {
-            display_column (ROCK_ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
+        // Player is rock
+        if (bitmap.current_bitmap == ROCK) {
+            if (bitmap.opponent_bitmap == ROCK) {
+                display_column (ROCK_ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
+            } else if (bitmap.opponent_bitmap == PAPER) {
+                display_column (ROCK_PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
+            } else if (bitmap.opponent_bitmap == SCISSORS) {
+                display_column (ROCK_SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
+            }
+        }
+        // Player is paper
+        if (bitmap.current_bitmap == PAPER) {
+            if (bitmap.opponent_bitmap == ROCK) {
+                display_column (PAPER_ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
+            } else if (bitmap.opponent_bitmap == PAPER) {
+                display_column (PAPER_PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
+            } else if (bitmap.opponent_bitmap == SCISSORS) {
+                display_column (PAPER_SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
+            }
         }
 
-        if (bitmap.current_bitmap == ROCK && bitmap.opponent_bitmap == PAPER) {
-            display_column (ROCK_PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
+        // Player is scissors
+        if (bitmap.current_bitmap == SCISSORS) {
+            if (bitmap.opponent_bitmap == ROCK) {
+                display_column (SCISSORS_ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
+            } else if (bitmap.opponent_bitmap == PAPER) {
+                display_column (SCISSORS_PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
+            } else if (bitmap.opponent_bitmap == SCISSORS) {
+                display_column (SCISSORS_SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
+            }
         }
-        //rock and scissors
-        if (bitmap.current_bitmap == ROCK && bitmap.opponent_bitmap == SCISSORS) {
-            display_column (ROCK_SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
-        }
-
-        //paper and rock
-        if (bitmap.current_bitmap == PAPER && bitmap.opponent_bitmap == ROCK) {
-            display_column (PAPER_ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
-        }
-        //paper and paper
-        if (bitmap.current_bitmap == PAPER && bitmap.opponent_bitmap == PAPER) {
-            display_column (PAPER_PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
-        }
-        //paper and scissors
-        if (bitmap.current_bitmap == PAPER && bitmap.opponent_bitmap == SCISSORS) {
-            display_column (PAPER_SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
-        }
-
-        //scissors and rock
-        if (bitmap.current_bitmap == SCISSORS && bitmap.opponent_bitmap == ROCK) {
-            display_column (SCISSORS_ROCK_BITMAP[bitmap.current_column], bitmap.current_column);
-        }
-        //scissors and paper
-        if (bitmap.current_bitmap == SCISSORS && bitmap.opponent_bitmap == PAPER) {
-            display_column (SCISSORS_PAPER_BITMAP[bitmap.current_column], bitmap.current_column);
-        }
-        //scissors and scissors
-        if (bitmap.current_bitmap == SCISSORS && bitmap.opponent_bitmap == SCISSORS) {
-            display_column (SCISSORS_SCISSORS_BITMAP[bitmap.current_column], bitmap.current_column);
-        }
-
-
 
         // Win/Loss/Draw
 
