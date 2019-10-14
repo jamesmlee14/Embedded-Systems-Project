@@ -49,12 +49,7 @@ int main (void)
     ir_uart_init();
     button_init();
 
-    Player_Bitmap bitmap = {0, ARROW, 0, 0, 0, 0, 0};
-
-    uint8_t in_player_assignment = 1;
-    uint8_t in_selection_phase = 0;
-    uint8_t in_transmission_phase = 0;
-    uint8_t in_outcome_phase = 0;
+    Player_Bitmap bitmap = {0, ARROW, 0, 0, 0, 0, 0, 1, 0, 0, 0};
 
     while (1) {
 
@@ -63,21 +58,21 @@ int main (void)
 
 
         // PLAYER ASSIGNMENT
-        if (in_player_assignment) {
+        if (bitmap.in_player_assignment) {
 
             bitmap = player_assignment(bitmap);
 
             if (bitmap.player) {
                 bitmap_reset();
-                in_player_assignment = 0;
-                in_selection_phase = 1;
+                bitmap.in_player_assignment = 0;
+                bitmap.in_selection_phase = 1;
                 bitmap.current_bitmap = ROCK;
             }
         }
 
 
         // SELECTION
-        if (in_selection_phase) {
+        if (bitmap.in_selection_phase) {
 
             bitmap = selection(bitmap);
 
@@ -85,30 +80,30 @@ int main (void)
 
                 bitmap_reset();
                 led_set (LED1, 0); // LIGHT OFF
-                in_selection_phase = 0;
-                in_transmission_phase = 1;
+                bitmap.in_selection_phase = 0;
+                bitmap.in_transmission_phase = 1;
             }
         }
 
 
         // TRANSMISSION
-        if (in_transmission_phase) {
+        if (bitmap.in_transmission_phase) {
 
             bitmap = transmission(bitmap);
 
-            in_transmission_phase = 0;
-            in_outcome_phase = 1;
+            bitmap.in_transmission_phase = 0;
+            bitmap.in_outcome_phase = 1;
         }
 
         // OUTCOME
-        if (in_outcome_phase) {
+        if (bitmap.in_outcome_phase) {
 
             bitmap = outcome(bitmap);
 
-            in_selection_phase = 1;
-            in_transmission_phase = 0;
-            in_outcome_phase = 0;
-            in_outcome_phase = 0;
+            bitmap.in_selection_phase = 1;
+            bitmap.in_transmission_phase = 0;
+            bitmap.in_outcome_phase = 0;
+            bitmap.in_outcome_phase = 0;
         }
     }
 }

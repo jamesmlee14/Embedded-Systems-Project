@@ -21,6 +21,8 @@
 #define TWO 12
 #define THREE 13
 
+#define N_ROWS 7
+
 #include "system.h"
 #include "navswitch.h"
 
@@ -36,6 +38,10 @@ struct player_bitmap_s {
     uint8_t player;
     uint8_t player_score;
     uint8_t opponent_score;
+    uint8_t in_player_assignment;
+    uint8_t in_selection_phase;
+    uint8_t in_transmission_phase;
+    uint8_t in_outcome_phase;
 };
 
   /** Resets the bitmap to blank by setting all pins to HIGH*/
