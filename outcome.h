@@ -1,5 +1,5 @@
-/** @file   outcome.c
-    @author James Mitchum Lee
+/** @file   outcome.h
+    @author James Mitchum Lee (jml184)
     @date   12 October 2019
     @brief  Rock Paper Scissors BO5 Outcome Phase
 

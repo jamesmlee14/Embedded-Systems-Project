@@ -14,8 +14,8 @@
                 &@@@@@@@@@&/    ,&@@@@@@&/ (@@@@@@@/  ,@@@@@@,       ,@@@@@@@%   (@@@@@.       (@@@@@@@&*
 
 
-                                             A Game by Jimmy Lee and Matthew Hornsby
-                                                       (47069483)       (48081532)
+                                             A Game by James Lee and Matthew Hornsby
+                                                       (jml184)       (mlh136)
 
                                                                 16/10/2019
 
@@ -101,5 +101,8 @@ Playing the game:
      -  The game continues until one player gains three points. Once this has been reached, the boards will congratulate the winner with W and a flashing led, and give the Loser an unfortunate L.
 
      -  In order to play another game, press the reset switch (the white button located at the bottom of the board) once the final winner / loser is displayed.
+        Then repeat the "make program" commands in the terminals as before.
 
 ================================================================================================================================
+
+Readme written by Matthew Hornsby and James Lee.

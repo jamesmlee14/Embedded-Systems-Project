@@ -1,5 +1,5 @@
 /** @file   transmission.c
-    @author James Mitchum Lee
+    @author James Mitchum Lee (jml184)
     @date   12 October 2019
     @brief  Rock Paper Scissors BO5 Transmission Phase
 

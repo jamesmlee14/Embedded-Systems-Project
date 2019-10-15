@@ -1,5 +1,5 @@
 # File:   Makefile
-# Authors: James Lee (47069483)
+# Author: James Mitchum Lee (jml184)
 # Date:   4 October 2019
 # Descr:  Makefile for Rock Paper Scissors BO5
 

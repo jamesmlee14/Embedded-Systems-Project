@@ -1,5 +1,5 @@
-/** @file   bitmap.h
-    @author James Mitchum Lee, Matthew Hornsby
+/** @file   bitmap.c
+    @authors James Mitchum Lee (jml184), Matthew Hornsby (mlh136)
     @date   10 October 2019
     @brief  Rock Paper Scissors BO5 Bitmap functionality
 
