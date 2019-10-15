@@ -13,7 +13,9 @@
 #include "pio.h"
 
 
-/** Define Bitmaps for use in the display_bitmap function  */
+/** Define led matrix bitmap patterns for use in the
+    display_bitmap function.
+*/
 const uint8_t ROCK_BITMAP[] = {
     0x00, 0x70, 0x70, 0x70, 0x00
 };
@@ -125,6 +127,7 @@ const pio_t cols[] = {
 
 
 /** Updates the current_column to display the correct pattern.
+
     @param  pattern the hex value of the current column in
     the desired pattern
     @param  current_column the column to update

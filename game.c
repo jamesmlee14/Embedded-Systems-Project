@@ -1,6 +1,6 @@
 /*
 * ENCE 260 Embedded Systems Project
-* Authors : James Mitchum Lee (47069487), Matthew Hornsby ()
+* Authors : James Mitchum Lee (jml184), Matthew Hornsby (mlh136)
 * Date: 4 October 2019
 *
 * "Rock Paper Scissors Best of 5"

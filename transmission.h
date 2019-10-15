@@ -17,11 +17,11 @@
 
 /** Executes game.c Transmission Phase:
 
-    1. Player 1 sends their selection
+    1. Player 1 sends their selection.
 
-    2. Player 2 recieves and stores player 1's selection
+    2. Player 2 recieves and stores player 1's selection.
 
-    3. Player 2 sends their selection
+    3. Player 2 sends their selection.
 
     4. Player 1 recieves and stores player 2's selection.
 

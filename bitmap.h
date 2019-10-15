@@ -27,12 +27,12 @@
 #include "system.h"
 #include "navswitch.h"
 
-/* Player's Bitmap information structure type
+/* Player's Bitmap information structure type definition.
 */
 typedef struct player_bitmap_s Player_Bitmap;
 
 
-/* Player's Bitmap information structure
+/* Player's Bitmap information structure.
 */
 struct player_bitmap_s {
     uint8_t current_column;
@@ -55,6 +55,7 @@ void bitmap_reset(void);
 
 
 /** Updates the current_column to display the correct pattern.
+
     @param  pattern the hex value of the current column in
     the desired pattern
     @param  current_column the column to update
@@ -63,6 +64,7 @@ void display_column (uint8_t pattern, uint8_t current_column);
 
 
 /** Displays the desired bitmap using the display_column function.
+
     @param  bitmap the player's Player_Bitmap struct
     @return the player's updated Player_Bitmap struct
 */

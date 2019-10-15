@@ -33,15 +33,15 @@ void flash_led(int counter);
 
 /** Executes game.c Outcome Phase:
 
-    1. Displays the players and their opponents selections for 5 seconds
+    1. Displays the players and their opponents selections for 5 seconds.
 
-    2. Displays a letter representing the players outcome in the game
-        -Flashes the LED if the player won a game
+    2. Displays a letter representing the players outcome in the game.
+        -Flashes the LED if the player won a game.
 
-    3. Displays the player's current score accross the match for 5 seconds
+    3. Displays the player's current score accross the match for 5 seconds.
 
-    4. If the match is decided, Displays the players outcome
-        -Flashes the LED if the player won the match
+    4. If the match is decided, Displays the players outcome.
+        -Flashes the LED if the player won the match.
         -Continues until board is reset.
 
     @param  bitmap the player's Player_Bitmap struct
