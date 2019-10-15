@@ -29,6 +29,4 @@
     @return the player's updated Player_Bitmap struct
 */
 Player_Bitmap transmission(Player_Bitmap bitmap);
-
-
 #endif

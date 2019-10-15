@@ -69,8 +69,6 @@ void display_column (uint8_t pattern, uint8_t current_column);
     @return the player's updated Player_Bitmap struct
 */
 Player_Bitmap display_bitmap(Player_Bitmap bitmap);
-
-
 #endif
 
 

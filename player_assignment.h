@@ -27,7 +27,6 @@
     @return the player's updated Player_Bitmap struct
 */
 Player_Bitmap player_assignment (Player_Bitmap bitmap);
-
 #endif
 
 
