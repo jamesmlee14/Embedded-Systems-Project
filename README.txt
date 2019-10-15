@@ -22,7 +22,7 @@
 ================================================================================================================================
 
         Best of 5 is a game created for the University of Canterbury fun kit 4 (UCfk4) platform. It is a recreation
-        of the popular game; Rock, Paper, Scissors, in which the players will compete until a player has won 3 games.
+        of the popular game; Rock, Paper, Scissors, in which the players will compete until someone has won 3 games.
 
 ================================================================================================================================
 
@@ -76,7 +76,7 @@ Installation:
 
 Playing the game:
 
-     -  Hold or Set the two boards down approximately 2-4cm away from one another, with the IR Reciever (Labelled U1) of each board aligned
+     -  Hold or set the two boards down approximately 5cm away from one another, with the IR Reciever (Labelled U1) of each board aligned
         with the opposing board's IR Transmitter (Labelled IR1)
 
      -  The match starts when one of the players presses the button next to the LED matrix display, indicated by the large arrow.
@@ -98,9 +98,10 @@ Playing the game:
 
      - After 5 more seconds, each player will see their current score accross the match.
 
-     -  The game continues until one player gains three points. Once this has been reached, the boards will congratulate the winner with W and a flashing led, and give the Loser an unfortunate L.
+     -  The game continues until one player gains three points. Once this has been reached, the boards will congratulate the winner with W and a flashing led,
+        and give the Loser an unfortunate L.
 
-     -  In order to play another game, press the reset switch (the white button located at the bottom of the board) once the final winner / loser is displayed.
+     -  In order to play another game, press each board's reset switch (the white button located at the bottom of the board) once the final winner / loser is displayed.
         Then repeat the "make program" commands in the terminals as before.
 
 ================================================================================================================================
