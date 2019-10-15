@@ -1,16 +1,15 @@
 /*
 * ENCE 260 Embedded Systems Project
-* Authors : James Mitchum Lee (jml184), Matthew Hornsby (mlh136)
-* Date: 4 October 2019
+* Group 219 - James Mitchum Lee (jml184), Matthew Hornsby (mlh136)
 * Filename: game.c
-*
+* Author: James Mitchum Lee (jml184)
+* Date: 4 October 2019
+* 
 * "Rock Paper Scissors Best of 5"
 *
 * Match Flow:
 *
 * 1. Player Assignment
-*
-* Game:
 *
 * 2. Selection Phase
 *
