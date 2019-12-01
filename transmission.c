@@ -40,12 +40,12 @@ Player_Bitmap transmission(Player_Bitmap bitmap)
         pacer_wait();
 
         if (bitmap.player == 1 && !sent) {
-            ir_uart_putc(bitmap.current_bitmap);  // 1sending
+            ir_uart_putc(bitmap.current_bitmap);  // Player 1 sending
             sent = 1;
         }
 
         if (bitmap.player == 2 && ir_uart_read_ready_p() && !recieved) {
-            recieved = ir_uart_getc();              // 2recieving
+            recieved = ir_uart_getc();              // Player 2 Recieving
             if (recieved == ROCK || recieved == PAPER || recieved == SCISSORS) {
                 bitmap.opponent_bitmap = recieved;
             } else {
@@ -54,12 +54,12 @@ Player_Bitmap transmission(Player_Bitmap bitmap)
         }
 
         if (bitmap.player == 2 && recieved && !sent) {
-            ir_uart_putc(bitmap.current_bitmap);  // 2sending
+            ir_uart_putc(bitmap.current_bitmap);  // Player 2 Sending
             sent = 1;
         }
 
         if (bitmap.player == 1 && sent && ir_uart_read_ready_p() && !recieved) {
-            recieved = ir_uart_getc();   // 1recieving
+            recieved = ir_uart_getc();   // Player 1 Recieving
             if (recieved == ROCK || recieved == PAPER || recieved == SCISSORS) {
                 bitmap.opponent_bitmap = recieved;
             } else {
